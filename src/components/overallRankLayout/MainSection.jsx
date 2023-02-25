@@ -16,8 +16,6 @@ const MainSection = () => {
   const [courseList, setCourseList] = useState([]);
   const [selectedState, setSelectedState] = useState(null);
 
-  const [stateResFilter, setStateResFilter] = useState(null);
-
   // console.log(predictorallData);
   const showMoreItem = () => {
     setIterPerPage((prev) => prev + 6);
@@ -82,7 +80,6 @@ const MainSection = () => {
     }
   };
 
-  console.log(selectedState);
   //stateList
   const predictorStateList = async () => {
     try {
@@ -107,6 +104,7 @@ const MainSection = () => {
     }
   };
 
+  console.log(selectedState);
   useEffect(() => {
     if (predictorallData) {
       setCollegeList(predictorallData);
