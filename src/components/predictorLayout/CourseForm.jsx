@@ -26,12 +26,11 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
         courseList: "",
       },
       validationSchema: basicValidation,
-      onSubmit: (values, actions) => {
+      onSubmit: (values) => {
         if (userInfo === null) {
           toast.warn("Login First");
         } else {
-          alert("data submit");
-          dispatch(responseData(values));
+          sessionStorage.setItem("values", JSON.stringify(values));
           navigate("/overallrank");
         }
 

@@ -1,80 +1,51 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { MdSearch } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { BASE_URL } from "../../baseUrl";
+import { useDispatch, useSelector } from "react-redux";
+import predictorList from "../../models/predictorList.model";
+import { responseData } from "../../redux/Action/predictorSubmit/responseData";
+import {
+  MdHouse,
+  MdMale,
+  MdModeEdit,
+  MdSearch,
+  MdVerified,
+} from "react-icons/md";
 import Loading from "../Loading/Loading";
 import MainCard from "./MainCard";
 
 const MainSection = () => {
+  const dispatch = useDispatch();
   const predictorData = useSelector((state) => state.responseData);
   const { predictorallData, loading, error } = predictorData;
 
-  const [itemPerpage, setIterPerPage] = useState(10);
-  const [collegeList, setCollegeList] = useState();
-  const [stateList, setStateList] = useState([]);
   const [courseList, setCourseList] = useState([]);
-  const [selectedState, setSelectedState] = useState(null);
+  const [stateList, setStateList] = useState([]);
+  const [collegeList, setCollegeList] = useState();
+  const [itemPerpage, setIterPerPage] = useState(10);
+  const [filterByCollege, setFilterByCollege] = useState({
+    rankId: "15000",
+    casteId: "OPEN",
+    genderId: "1",
+    homeStateId: "28",
+    filterStateId: "28",
+    cityId: "",
+    abled: "0",
+    courseList: "1",
+    sortBy: "closingRank",
+    orderBy: "desc",
+  });
 
-  // console.log(predictorallData);
-  const showMoreItem = () => {
-    setIterPerPage((prev) => prev + 6);
-  };
+  const getValueData = sessionStorage.getItem("values")
+    ? JSON.parse(sessionStorage.getItem("values"))
+    : null;
 
-  // const handleStateChange = (e) => {
-  //   setSelectedState(e.target.value);
-  // };
-
-  // const ascendingEvent = () => {
-  //   let data = [...predictorallData];
-  //   if (data.length > 0) {
-  //     let result = data.sort((a, b) =>
-  //       a.cs_collegename.localeCompare(b.cs_collegename)
-  //     );
-  //     setCollegeList(result);
-  //     // setCollegeList(result);
-  //   }
-  // };
-
-  // const descendingEvent = () => {
-  //   let data = [...predictorallData];
-  //   if (data.length > 0) {
-  //     let result = data.sort((a, b) =>
-  //       b.cs_collegename.localeCompare(a.cs_collegename)
-  //     );
-  //     setCollegeList(result);
-  //     // setCollegeList(result);
-  //   }
-  // };
-
-  //filterState
-  const handleFilterByState = async () => {
+  // filterState
+  const handleFilterByCourse = async () => {
     try {
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-      const { data } = await axios.post(
-        `${BASE_URL}/predictor/predictorStateResList`,
-        {
-          rankId: "15000",
-          casteId: "OPEN",
-          genderId: "2",
-          homeStateId: "28",
-          filterStateId: selectedState,
-          cityId: "",
-          abled: "0",
-          courseList: "",
-          sortBy: "medianSalary",
-          orderBy: "desc",
-        },
-        requestOptions
-      );
-
-      console.log(data.predictorResList);
+      const { data } = await predictorList.filterCourseList(filterByCollege);
+      console.log(data);
+      if (data) {
+        // setCollegeList(data.predictorResList);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -83,9 +54,7 @@ const MainSection = () => {
   //stateList
   const predictorStateList = async () => {
     try {
-      const { data } = await axios.post(
-        `${BASE_URL}/predictor/predictorStateList`
-      );
+      const { data } = await predictorList.stateList();
       setStateList(data.stateList);
     } catch (err) {
       console.log(err);
@@ -95,16 +64,25 @@ const MainSection = () => {
   //CourseList
   const predictorCourseList = async () => {
     try {
-      const { data } = await axios.post(
-        `${BASE_URL}/predictor/predictorCourseList`
-      );
+      const { data } = await predictorList.courseList();
       setCourseList(data.predictorCourseList);
     } catch (err) {
       console.log(err);
     }
   };
 
-  console.log(selectedState);
+  //onChangeHandler
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilterByCollege({ ...filterByCollege, [name]: value });
+    console.log(name, value);
+  };
+
+  //showMore button
+  const showMoreItem = () => {
+    setIterPerPage((prev) => prev + 6);
+  };
+
   useEffect(() => {
     if (predictorallData) {
       setCollegeList(predictorallData);
@@ -116,6 +94,14 @@ const MainSection = () => {
     predictorCourseList();
   }, []);
 
+  useEffect(() => {
+    if (getValueData) {
+      dispatch(responseData(getValueData));
+    }
+  }, [dispatch]);
+
+  console.log(collegeList);
+  // console.log(getValueData);
   return (
     <section className="main_sec">
       <div className="container ">
@@ -147,6 +133,69 @@ const MainSection = () => {
 
             <div className="col-xl-4 col-lg-6 mobilehide">
               <div className="sticybx">
+                <div className="d-block">
+                  <div className="cat-show-box" id="formValues">
+                    {/* <div
+                      className="catticked dark"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModalFullscreenMd"
+                      id=""
+                    >
+                      <span
+                        className="material-icons cnlbutton"
+                        style={{ color: "#000" }}
+                      >
+                        edit
+                      </span>
+                      <div className="ticktext" style={{ maxWidth: "100%" }}>
+                        Edit
+                      </div>
+                    </div> */}
+                    <button
+                      className="e_btn"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModalFullscreenMd"
+                    >
+                      <MdModeEdit className="m-edit-icon" />
+                      Edit
+                    </button>
+                    <div className="catticked" id="">
+                      <span
+                        className="material-icons cnlbutton"
+                        style={{ color: "#119d78" }}
+                      >
+                        <MdVerified />
+                      </span>
+                      <div className="ticktext" style={{ maxWidth: "100%" }}>
+                        {getValueData?.rankId}
+                      </div>
+                    </div>
+                    <div className="catticked" id="">
+                      <span
+                        className="material-icons cnlbutton"
+                        style={{ color: "#119d78" }}
+                      >
+                        <MdHouse />
+                      </span>
+                      <div className="ticktext" style={{ maxWidth: "100%" }}>
+                        {/* {collegeList} */} Tamil Nadu
+                      </div>
+                    </div>
+                    <div className="catticked" id="">
+                      <span
+                        className="material-icons cnlbutton"
+                        style={{ color: "#119d78" }}
+                      >
+                        <MdMale />
+                      </span>
+
+                      <div className="ticktext" style={{ maxWidth: "100%" }}>
+                        Male
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div
                   className="course-accordion accordion"
                   id="accordionCourse4"
@@ -288,8 +337,14 @@ const MainSection = () => {
                                         type="radio"
                                         id={courseItem.courseId}
                                         className="customradioinput"
-                                        name="test13"
-                                        value="CourseName"
+                                        name="courseList"
+                                        value={courseItem.courseId}
+                                        // checked={
+                                        //   filterByCollege.courseList ===
+                                        //   courseItem.courseId
+                                        // }
+                                        onChange={handleFilterChange}
+                                        onClick={handleFilterByCourse}
                                       />
                                       <div className="radiobx">
                                         {courseItem.courseName.split("(")[0]}
@@ -332,18 +387,14 @@ const MainSection = () => {
                                       <input
                                         type="radio"
                                         id={stateItem.stateName}
-                                        name={stateItem.stateName}
+                                        name="filterStateId"
                                         value={stateItem.stateId}
                                         className="customradioinput"
-                                        checked={
-                                          selectedState === stateItem.stateId
-                                        }
-                                        onChange={(e) =>
-                                          setSelectedState(
-                                            parseInt(e.target.value)
-                                          )
-                                        }
-                                        onClick={handleFilterByState}
+                                        // checked={
+                                        //   selectedState === stateItem.stateId
+                                        // }
+                                        onChange={handleFilterChange}
+                                        onClick={handleFilterByCourse}
                                       />
                                       <div className="radiobx">
                                         {stateItem.stateName}
@@ -357,7 +408,7 @@ const MainSection = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="accordion-item">
+                  {/* <div className="accordion-item">
                     <button
                       data-bs-toggle="collapse"
                       data-bs-target="#collapseOne5"
@@ -457,7 +508,7 @@ const MainSection = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

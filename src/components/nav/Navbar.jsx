@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   MdPerson,
@@ -23,28 +23,11 @@ const Navbar = () => {
   const [profileShow, setProfileShow] = useState(false);
   const { userInfo } = userAuth;
 
-  const menuRef = useRef();
-  const imgRef = useRef();
-
-  // window.addEventListener("click", (e) => {
-  //   if (e.target !== menuRef.current && e.target !== imgRef.current) {
-  //     setProfileShow(false);
-  //   }
-  // });
   const handleLogout = () => {
     dispatch(userLogout());
     toast.success("Logout Successfull");
   };
 
-  // window.addEventListener("click", () => {
-  //   setProfileShow(!true);
-  // });
-  // window.onclick = function (event) {
-  //   console.log(event);
-  //   // if (event.target == active) {
-  //   //   active.style.display = "none";
-  //   // }
-  // };
   return (
     <nav>
       <header>
@@ -355,12 +338,11 @@ const Navbar = () => {
             </div>
 
             {userInfo ? (
-              <div className="toplinks">
-                <div
-                  className="rio-ulogin"
-                  ref={imgRef}
-                  onClick={() => setProfileShow(!profileShow)}
-                >
+              <div
+                className="toplinks"
+                onClick={() => setProfileShow(!profileShow)}
+              >
+                <div className="rio-ulogin">
                   <div className="us_img hid">
                     <img
                       src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=687&amp;q=80"

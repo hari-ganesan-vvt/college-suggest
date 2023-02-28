@@ -3516,7 +3516,7 @@ footer {
 }
 
 /* filter-sec-start */
-.cat-show-box2 {
+.cat-show-box {
   padding: 10px 0px;
   border-radius: 4px;
   display: -webkit-box;
@@ -3531,7 +3531,7 @@ footer {
   overflow-y: auto;
 }
 
-.catticked2 {
+.catticked {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3544,7 +3544,7 @@ footer {
   font-weight: 500;
   font-size: 13px;
   margin: 5px 5px 5px 0px;
-  padding: 6px 8px;
+  padding: 2px 8px;
   border: 1px solid #119d78;
   border-radius: 5px;
   cursor: pointer;
@@ -4090,7 +4090,19 @@ i.material-icons.closefiltermodal {
   user-select: none;
   transition: 0.2s;
 }
+.e_btn .m-edit-icon {
+  font-size: 24px;
+}
 
+.catticked .cnlbutton {
+  margin-right: 4px;
+  color: #575757;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  font-size: 17px;
+}
 .e_btn:hover {
   background-color: #f2f2f2dd;
 }

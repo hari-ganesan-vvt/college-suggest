@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { BASE_URL } from "../../baseUrl";
 import { toast } from "react-toastify";
-import { responseData } from "../../redux/Action/predictorSubmit/responseData";
 import CourseForm from "./CourseForm";
-import axios from "axios";
+import predictorList from "../../models/predictorList.model";
 import * as Yup from "yup";
 
 const TabForm = () => {
@@ -44,43 +42,37 @@ const TabForm = () => {
       if (userInfo === null) {
         toast.warn("Login First");
       } else {
-        dispatch(responseData(values));
+        sessionStorage.setItem("values", JSON.stringify(values));
         navigate("/overallrank");
       }
       // actions.resetForm();
     },
   });
 
-  //predictorStateList
+  //stateList
   const predictorStateList = async () => {
     try {
-      const { data } = await axios.post(
-        `${BASE_URL}/predictor/predictorStateList`
-      );
+      const { data } = await predictorList.stateList();
       setStateList(data.stateList);
     } catch (err) {
       console.log(err);
     }
   };
 
-  //predictorCasteList
+  //CasteList
   const predictorCasteList = async () => {
     try {
-      const { data } = await axios.post(
-        `${BASE_URL}/predictor/predictorCasteList`
-      );
+      const { data } = await predictorList.casteList();
       setCasteList(data.predictorCasteList);
     } catch (err) {
       console.log(err);
     }
   };
 
-  //predictorCourseList
+  //courseList
   const predictorCourseList = async () => {
     try {
-      const { data } = await axios.post(
-        `${BASE_URL}/predictor/predictorCourseList`
-      );
+      const { data } = await predictorList.courseList();
       setCourseList(data.predictorCourseList);
     } catch (err) {
       console.log(err);
