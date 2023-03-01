@@ -5,12 +5,10 @@ import {
   userSignupReducer,
 } from "./reducer/userReducer/userReducer";
 import thunk from "redux-thunk";
-import { responseReducer } from "./reducer/predictorSubmit/responseData";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userSignup: userSignupReducer,
-  responseData: responseReducer,
 });
 
 // login

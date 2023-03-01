@@ -2357,6 +2357,7 @@ li .con input {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 300;
+  text-transform: capitalize;
   font-size: 13px;
   line-height: 20px;
   letter-spacing: 0.005em;
@@ -2379,6 +2380,9 @@ li .con input {
   color: #e02929;
 }
 
+.catticked .cnlbutton:hover {
+  color: red;
+}
 .openpop {
   display: none;
   border: none;

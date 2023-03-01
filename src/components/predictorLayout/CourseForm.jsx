@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { basicValidation } from "../../utils/validation";
 import { useNavigate } from "react-router-dom";
-import { responseData } from "../../redux/Action/predictorSubmit/responseData";
 import { toast } from "react-toastify";
 
 const CourseForm = ({ courseList, casteList, stateList }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const userAuth = useSelector((state) => state.userLogin);
   const [selectedRank, setSelectedRank] = useState("");
 
@@ -30,7 +28,7 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
         if (userInfo === null) {
           toast.warn("Login First");
         } else {
-          sessionStorage.setItem("values", JSON.stringify(values));
+          sessionStorage.setItem("_values", JSON.stringify(values));
           navigate("/overallrank");
         }
 

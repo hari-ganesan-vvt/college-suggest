@@ -80,10 +80,12 @@ const MainCard = ({ listdata }) => {
                             </svg>
                           </div>
                           <div className="d-block">
-                            <h3 className="titlelinks mini">{course}</h3>
-                            <p className="locationpara mini">
-                              Hauz Khas, Delhi
-                            </p>
+                            <h3 className="titlelinks mini">
+                              {course?.j_course_name}
+                            </h3>
+                            {/* <p className="locationpara mini">
+                              {course.}
+                            </p> */}
                           </div>
                         </div>
                       </a>

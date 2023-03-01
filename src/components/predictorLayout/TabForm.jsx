@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -9,9 +9,8 @@ import * as Yup from "yup";
 
 const TabForm = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const userAuth = useSelector((state) => state.userLogin);
+
   const [selectedRank, setSelectedRank] = useState();
   const [stateList, setStateList] = useState([]);
   const [casteList, setCasteList] = useState([]);
@@ -38,11 +37,10 @@ const TabForm = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
       if (userInfo === null) {
         toast.warn("Login First");
       } else {
-        sessionStorage.setItem("values", JSON.stringify(values));
+        sessionStorage.setItem("_values", JSON.stringify(values));
         navigate("/overallrank");
       }
       // actions.resetForm();
@@ -53,7 +51,16 @@ const TabForm = () => {
   const predictorStateList = async () => {
     try {
       const { data } = await predictorList.stateList();
-      setStateList(data.stateList);
+      let resultData = data.stateList.sort((a, b) => {
+        if (a.stateName < b.stateName) {
+          return -1;
+        }
+        if (a.stateName > b.stateName) {
+          return 1;
+        }
+        return 0;
+      });
+      setStateList(resultData);
     } catch (err) {
       console.log(err);
     }
@@ -225,24 +232,11 @@ const TabForm = () => {
                             Select your Home State
                           </option>
                           {stateList.length !== 0 ? (
-                            stateList
-                              .sort((a, b) => {
-                                if (a.stateName < b.stateName) {
-                                  return -1;
-                                }
-                                if (a.stateName > b.stateName) {
-                                  return 1;
-                                }
-                                return 0;
-                              })
-                              .map((state) => (
-                                <option
-                                  value={state.stateId}
-                                  key={state.stateId}
-                                >
-                                  {state.stateName}
-                                </option>
-                              ))
+                            stateList.map((state) => (
+                              <option value={state.stateId} key={state.stateId}>
+                                {state.stateName}
+                              </option>
+                            ))
                           ) : (
                             <option>No Data Found!</option>
                           )}

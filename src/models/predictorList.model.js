@@ -6,12 +6,8 @@ const predictorList = {
       let url = "/predictor/predictorResList";
       instance()
         .post(url, values)
-        .then((res) => {
-          resolve(res);
-        })
-        .catch((error) => {
-          reject(error);
-        });
+        .then((res) => resolve(res))
+        .catch((error) => reject(error));
     });
 
     return promise;

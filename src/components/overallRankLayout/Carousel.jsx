@@ -45,14 +45,14 @@ const Carousel = ({ listdata }) => {
           return (
             <SwiperSlide key={i}>
               <div className="slidebx">
-                <a className="linktitle">{courseList}</a>
+                <a className="linktitle">{courseList.j_course_name}</a>
                 <div className="preseat">
                   <div className="pretxt">
                     <p>
-                      Seats : <span>128</span>
+                      Seats : <span>{courseList.jSeats}</span>
                     </p>
                     <p>
-                      Fee : <span>8L</span>
+                      Fee : <span>{courseList.jFees}</span>
                     </p>
                   </div>
                   <div>
