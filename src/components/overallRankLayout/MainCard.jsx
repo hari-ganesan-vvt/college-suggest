@@ -1,6 +1,5 @@
 import React from "react";
-
-import { MdSearch } from "react-icons/md";
+import { MdOutlinePayments, MdSearch } from "react-icons/md";
 import Carousel from "./Carousel";
 import noLogo from "../../assets/no_logo.webp";
 
@@ -186,7 +185,7 @@ const MainCard = ({ listdata }) => {
 
           <div className="col-md-3 col-sm-12">
             <div href="#" className="graylinktxt text-right">
-              Overall Fees
+              <MdOutlinePayments /> Overall Fees
             </div>
           </div>
         </div>

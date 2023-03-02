@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LoginSidebar from "../../components/loginSidebar/LoginSidebar";
 import Footer from "../../components/footer/Footer";
 import ThumbImg from "../../assets/dummythumb.png";
@@ -6,6 +6,9 @@ import Modal from "../../components/predictorLayout/Modal";
 import Form from "../../components/predictorLayout/Form";
 
 const Predictor = () => {
+  useEffect(() => {
+    sessionStorage.removeItem("_values");
+  }, []);
   return (
     <div className="predictor">
       <section className="hero_sec clg-sugg_green">

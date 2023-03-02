@@ -99,7 +99,7 @@ const Carousel = ({ listdata }) => {
       <div className="row align-items-center card_bottom">
         <div className="col-md-4 col-8">
           <button className="prebtn1">
-            <BiCloudDownload className=" me-2 m-svg" />
+            <BiCloudDownload className="material-icons me-2 m-svg" />
             Brochure
           </button>
         </div>

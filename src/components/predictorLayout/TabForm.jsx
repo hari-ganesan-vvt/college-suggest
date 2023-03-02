@@ -11,7 +11,6 @@ const TabForm = () => {
   const navigate = useNavigate();
   const userAuth = useSelector((state) => state.userLogin);
 
-  const [selectedRank, setSelectedRank] = useState();
   const [stateList, setStateList] = useState([]);
   const [casteList, setCasteList] = useState([]);
   const [courseList, setCourseList] = useState([]);
@@ -20,6 +19,7 @@ const TabForm = () => {
 
   //validation
   const validationSchema = Yup.object().shape({
+    rankType: Yup.string().required("Rank Type is required!"),
     rankId: Yup.string().required("Rank is required!"),
     stateId: Yup.string().required("State is required!"),
     casteId: Yup.string().required("Caste is required!"),
@@ -29,6 +29,7 @@ const TabForm = () => {
   //formik
   const { values, handleChange, errors, touched, handleSubmit } = useFormik({
     initialValues: {
+      rankType: "",
       rankId: "",
       stateId: "",
       casteId: "",
@@ -143,54 +144,56 @@ const TabForm = () => {
                   <div className="fromblock d-block">
                     <form
                       method="POST"
-                      action="overallrank.php"
                       id="valueForm"
                       onSubmit={handleSubmit}
                       className="needs-validation"
                       noValidate
                     >
                       {/* <!-- checkbox-sec-here --> */}
-                      <div className="chectop" style={{ marginBottom: "25px" }}>
-                        <label htmlFor="r1" className="customradio">
-                          <input
-                            type="radio"
-                            id="r1"
-                            className="customradioinput"
-                            name="predictType"
-                            value="Category Rank"
-                            // checked={selectedRank === "Category Rank"}
-                            onChange={(e) => setSelectedRank(e.target.value)}
-                          />
-                          <div className="radiobx">Category Rank</div>
-                        </label>
-                        <label htmlFor="r2" className="customradio">
-                          <input
-                            type="radio"
-                            id="r2"
-                            className="customradioinput"
-                            name="predictType"
-                            value="General Rank"
-                            // checked={selectedRank === "General Rank"}
-                            onChange={(e) => setSelectedRank(e.target.value)}
-                          />
-                          <div className="radiobx">General Rank</div>
-                        </label>
+                      <div className="form-row">
+                        <div
+                          className="chectop is-invalid"
+                          // style={{ marginBottom: "25px" }}
+                        >
+                          <label htmlFor="r1" className="customradio">
+                            <input
+                              type="radio"
+                              id="r1"
+                              className="customradioinput"
+                              name="rankType"
+                              value="Category Rank"
+                              onChange={handleChange}
+                            />
+                            <div className="radiobx">Category Rank</div>
+                          </label>
+                          <label htmlFor="r2" className="customradio">
+                            <input
+                              type="radio"
+                              id="r2"
+                              className="customradioinput"
+                              name="rankType"
+                              value="General Rank"
+                              onChange={handleChange}
+                            />
+                            <div className="radiobx">General Rank</div>
+                          </label>
+                        </div>
+                        <div className="invalid-feedback">
+                          {errors.rankType && touched.rankType
+                            ? errors.rankType
+                            : null}
+                        </div>
                       </div>
+
                       <div className="form-row has-validation">
-                        <input
-                          type="hidden"
-                          name="formBased"
-                          id="formType"
-                          value="valueBased"
-                        />
                         <label htmlFor="validationCustom03">
                           JEE Main Paper 1 &nbsp;
                           <span id="rankType" name="rankType">
-                            {selectedRank}
+                            {values?.rankType}
                           </span>
                         </label>
                         <input
-                          type="number"
+                          type="text"
                           name="rankId"
                           placeholder="Enter Your Rank"
                           id="validationCustom03"
@@ -202,8 +205,6 @@ const TabForm = () => {
                           }
                           onChange={handleChange}
                           value={values.rankId}
-                          // value={initialState.rankId}
-                          //   onkeypress= "return onlyNumberKey(event)"
                         />
                         <div className="invalid-feedback">
                           {errors.rankId && touched.rankId
@@ -225,8 +226,6 @@ const TabForm = () => {
                           }
                           onChange={handleChange}
                           value={values.stateId}
-                          // defaultValue={"DEFAULT"}
-                          //   onchange="hiddenState()"
                         >
                           <option hidden value="DEFAULT">
                             Select your Home State
@@ -296,7 +295,7 @@ const TabForm = () => {
                               id="r4"
                               className="customradioinput"
                               name="genderId"
-                              onChange={handleChange}
+                              // onChange={handleChange}
                               value="2"
                             />
                             <div className="radiobx">Female</div>
@@ -307,7 +306,7 @@ const TabForm = () => {
                               id="r5"
                               className="customradioinput"
                               name="genderId"
-                              onChange={handleChange}
+                              // onChange={handleChange}
                               value="1"
                             />
                             <div className="radiobx">Male</div>

@@ -1,21 +1,30 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { basicValidation } from "../../utils/validation";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
 
 const CourseForm = ({ courseList, casteList, stateList }) => {
   const navigate = useNavigate();
   const userAuth = useSelector((state) => state.userLogin);
-  const [selectedRank, setSelectedRank] = useState("");
 
   const { userInfo } = userAuth;
+
+  const basicValidation = Yup.object().shape({
+    rankType: Yup.string().required("Rank Type is required!"),
+    rankId: Yup.string().required("Rank is required!"),
+    stateId: Yup.string().required("State is required!"),
+    casteId: Yup.string().required("Caste is required!"),
+    courseList: Yup.string().required("Course is required!"),
+    genderId: Yup.string().required("Gender is required!"),
+  });
 
   //formik
   const { values, handleChange, errors, isSubmitting, touched, handleSubmit } =
     useFormik({
       initialValues: {
+        rankType: "",
         rankId: "",
         stateId: "",
         casteId: "",
@@ -31,8 +40,6 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
           sessionStorage.setItem("_values", JSON.stringify(values));
           navigate("/overallrank");
         }
-
-        console.log(values);
       },
     });
 
@@ -53,32 +60,38 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
             id="courseForm"
           >
             {/* <!-- checkbox-sec-here --> */}
-            <div className="chectop" style={{ marginBottom: "25px" }}>
-              <label htmlFor="r11" className="customradio">
-                <input
-                  type="radio"
-                  id="r11"
-                  className="customradioinput"
-                  name="predictType"
-                  value="Category Rank"
-                  // defaultChecked={selectedRank === "Category Rank"}
-                  onChange={(e) => setSelectedRank(e.target.value)}
-                />
-                <div className="radiobx">Category Rank</div>
-              </label>
-              <label htmlFor="r12" className="customradio">
-                <input
-                  type="radio"
-                  id="r12"
-                  className="customradioinput"
-                  name="predictType"
-                  value="General Rank"
-                  // defaultChecked={selectedRank === "General Rank"}
-                  onChange={(e) => setSelectedRank(e.target.value)}
-                />
-                <div className="radiobx">General Rank</div>
-              </label>
+            <div className="form-row">
+              <div className="chectop is-invalid">
+                <label htmlFor="r11" className="customradio">
+                  <input
+                    type="radio"
+                    id="r11"
+                    className="customradioinput"
+                    name="rankType"
+                    value="Category Rank"
+                    // defaultChecked={selectedRank === "Category Rank"}
+                    onChange={handleChange}
+                  />
+                  <div className="radiobx">Category Rank</div>
+                </label>
+                <label htmlFor="r12" className="customradio">
+                  <input
+                    type="radio"
+                    id="r12"
+                    className="customradioinput"
+                    name="rankType"
+                    value="General Rank"
+                    // defaultChecked={selectedRank === "General Rank"}
+                    onChange={handleChange}
+                  />
+                  <div className="radiobx">General Rank</div>
+                </label>
+              </div>
+              <div className="invalid-feedback">
+                {errors.rankType && touched.rankType ? errors.rankType : null}
+              </div>
             </div>
+
             <div className="form-row">
               <input
                 type="hidden"
@@ -89,7 +102,7 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
               <label htmlFor="#">
                 JEE Main Paper 1&nbsp;
                 <span id="rankType" name="rankType">
-                  {selectedRank}
+                  {values?.rankType}
                 </span>
               </label>
               <input

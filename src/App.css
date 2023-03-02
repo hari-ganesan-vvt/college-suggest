@@ -677,6 +677,7 @@ header {
 
 .hero_sec {
   padding: 138px 0px 83px;
+  position: relative;
 }
 
 /* .hero_sec.comparisionsec {
@@ -1115,6 +1116,7 @@ input.customradioinput {
 .paratitle span {
   font-weight: 500 !important;
   color: #fff !important;
+  margin-left: 5px;
 }
 
 /* overall-page-css-start-here */
@@ -1648,6 +1650,9 @@ input.customradioinput {
   transition: 0.2s;
 }
 
+.prebtn1 .material-icons {
+  font-size: 20px;
+}
 /* .prebtn1:focus {
     background: #11519cd4 !important;
 }

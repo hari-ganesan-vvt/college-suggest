@@ -1,9 +1,15 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import favicg from "../../assets/favicg.png";
 import Footer from "../../components/footer/Footer";
 import MainSection from "../../components/overallRankLayout/MainSection";
 
 const OverallRank = () => {
+  //getValues session Storage
+  const getValueData = sessionStorage.getItem("_values")
+    ? JSON.parse(sessionStorage.getItem("_values"))
+    : null;
+
   useEffect(() => {
     window.scroll(0, 0);
   }, []);
@@ -21,12 +27,34 @@ const OverallRank = () => {
                   </h1>
                   <p className="paratitle">
                     College Predictor Results Shown for 75 JEE Paper-1
-                    <span>Overall Rank</span>
+                    <span>{getValueData?.rankType}</span>
                   </p>
                 </div>
               </div>
             </div>
           </div>
+          <ul className="n_breadcrumbs witheditpad">
+            <li className="n_breadcrumbs_items">
+              <Link to="/" className="n_breadcrumbs_items_links">
+                Home
+              </Link>
+            </li>
+            <li className="n_breadcrumbs_items">
+              <Link to="/predictor" className="n_breadcrumbs_items_links">
+                Predictors
+              </Link>
+            </li>
+            <li className="n_breadcrumbs_items active">
+              <a className="n_breadcrumbs_items_links">Overall</a>
+            </li>
+            <button
+              className="e_btn "
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModalFullscreenMd"
+            >
+              <i className="material-icons cnlbutton vm me-1">edit</i>Edit
+            </button>
+          </ul>
         </section>
 
         <section className="typ-wrap">
@@ -97,7 +125,7 @@ const OverallRank = () => {
             </ul>
           </div>
         </section>
-        <MainSection />
+        <MainSection getValueData={getValueData} />
       </div>
       <Footer />
     </>
