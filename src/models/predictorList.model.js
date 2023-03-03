@@ -3,7 +3,13 @@ import instance from "../utils/axios.utils";
 const predictorList = {
   formSubmitData: (values) => {
     let promise = new Promise((resolve, reject) => {
-      let url = "/predictor/predictorResList";
+      let url;
+      if (values.rankType === "General Rank") {
+        url = "/predictor/predictorResList";
+      }
+      if (values.rankType === "Category Rank") {
+        url = "predictor/predictorCategoryCollegeList";
+      }
       instance()
         .post(url, values)
         .then((res) => resolve(res))

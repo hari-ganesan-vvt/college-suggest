@@ -17,8 +17,8 @@ const MainSection = ({ getValueData }) => {
   //state
   const [courseList, setCourseList] = useState([]);
   const [stateList, setStateList] = useState([]);
+  const [cityList, setCityList] = useState([]);
   const [collegeList, setCollegeList] = useState([]);
-  const [itemPerpage, setIterPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [filterByCollege, setFilterByCollege] = useState({
@@ -47,11 +47,21 @@ const MainSection = ({ getValueData }) => {
     courseId: parseInt(filterByCollege.courseList),
   });
 
+  // const findHomeIcon = _.find(collegeList, function (item) {
+  //   return item.stateName == findFormState.stateName;
+  // });
+
+  // console.log(findHomeIcon);
+  // const homeStateValue = _.find(collegeList, {
+  //   stateName: selectedStateValue.stateName.toString(),
+  // });
+
+  // console.log(homeStateValue);
   const handleSelectedAllClear = () => {
     setFilterByCollege({
       ...filterByCollege,
       filterStateId: "",
-      // cityId: "",
+      cityId: "",
       courseList: "",
       sortBy: "",
       orderBy: "",
@@ -85,8 +95,10 @@ const MainSection = ({ getValueData }) => {
       courseList = [];
     }
     setCollegeList(college);
+    setCityList(college);
   };
 
+  // console.log("cityList", cityList);
   //form submitValues
   const responseSubmitData = async () => {
     setLoading(true);
@@ -160,12 +172,11 @@ const MainSection = ({ getValueData }) => {
   };
 
   //showMore button
-  const showMoreItem = () => {
-    setIterPerPage((prev) => prev + 6);
-  };
+  // const showMoreItem = () => {
+  //   setIterPerPage((prev) => prev + 6);
+  // };
 
   useEffect(() => {
-    responseSubmitData();
     predictorStateList();
     predictorCourseList();
   }, []);
@@ -175,12 +186,15 @@ const MainSection = ({ getValueData }) => {
       filterByCollege.filterStateId.length > 0 ||
       filterByCollege.courseList.length > 0 ||
       filterByCollege.sortBy.length > 0 ||
-      filterByCollege.orderBy.length > 0
+      filterByCollege.orderBy.length > 0 ||
+      filterByCollege.cityId.length > 0
     ) {
       filterResData();
+    } else {
+      responseSubmitData();
     }
   }, [filterByCollege]);
-  // console.log(findValues);
+
   return (
     <section className="main_sec">
       <div className="container ">
@@ -200,20 +214,26 @@ const MainSection = ({ getValueData }) => {
                       <div>
                         {collegeList &&
                           collegeList
-                            .slice(0, itemPerpage)
+                            // .slice(0, itemPerpage)
                             .map((listdata, i) => {
-                              return <MainCard listdata={listdata} key={i} />;
+                              return (
+                                <MainCard
+                                  listdata={listdata}
+                                  key={i}
+                                  stateInfo={findFormState}
+                                />
+                              );
                             })}
                       </div>
                     ) : (
                       <div>No data found</div>
                     )}
 
-                    {collegeList && collegeList.length !== 0 && (
+                    {/* {collegeList && collegeList.length !== 0 && (
                       <button className="loadmore" onClick={showMoreItem}>
                         Loadmore
                       </button>
-                    )}
+                    )} */}
                   </div>
                 )}
               </div>
@@ -282,6 +302,29 @@ const MainSection = ({ getValueData }) => {
 
                         <div className="ticktext" style={{ maxWidth: "100%" }}>
                           {getValueData?.genderId === "1" ? "Male" : "Female"}
+                        </div>
+                      </div>
+                      <div className="catticked" id="">
+                        <span
+                          className="material-icons cnlbutton"
+                          style={{ color: "#119d78" }}
+                        >
+                          <svg
+                            stroke="currentColor"
+                            fill="currentColor"
+                            strokeWidth="0"
+                            viewBox="0 0 24 24"
+                            height="1em"
+                            width="1em"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                            <path d="M21 3v2h-2V3h-2v2h-2V3h-2v4l2 2v1H9V9l2-2V3H9v2H7V3H5v2H3V3H1v4l2 2v6l-2 2v4h9v-3c0-1.1.9-2 2-2s2 .9 2 2v3h9v-4l-2-2V9l2-2V3h-2z"></path>
+                          </svg>
+                        </span>
+
+                        <div className="ticktext" style={{ maxWidth: "100%" }}>
+                          {getValueData?.casteId}
                         </div>
                       </div>
                     </div>
@@ -386,6 +429,7 @@ const MainSection = ({ getValueData }) => {
                                 setFilterByCollege({
                                   ...filterByCollege,
                                   filterStateId: "",
+                                  cityId: "",
                                 })
                               }
                             >
@@ -396,13 +440,36 @@ const MainSection = ({ getValueData }) => {
                             </div>
                           </div>
                         )}
+
+                        {filterByCollege.cityId.length > 0 && (
+                          <div
+                            className="catticked"
+                            id="FTorderasc"
+                            // onclick="closeFilter('FTorder','asc')"
+                          >
+                            <span
+                              className="material-icons cnlbutton"
+                              onClick={() =>
+                                setFilterByCollege({
+                                  ...filterByCollege,
+                                  cityId: "",
+                                })
+                              }
+                            >
+                              <MdClose />
+                            </span>
+                            <div className="ticktext">
+                              {cityList[0]?.cityName}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ) : null}
                   </div>
 
                   <div
                     className="course-accordion accordion"
-                    id="accordionCourse4"
+                    id="accordionCourse3"
                   >
                     <div className="accordion-item">
                       <button
@@ -484,7 +551,7 @@ const MainSection = ({ getValueData }) => {
                                     value="closingRank"
                                     onChange={handleFilterChange}
                                     checked={
-                                      filterByCollege.sortBy == "closingRank"
+                                      filterByCollege.sortBy === "closingRank"
                                     }
                                   />
                                   <div className="radiobx">Closing Rank</div>
@@ -500,7 +567,7 @@ const MainSection = ({ getValueData }) => {
                                     value="nirfRank"
                                     onChange={handleFilterChange}
                                     checked={
-                                      filterByCollege.sortBy == "nirfRank"
+                                      filterByCollege.sortBy === "nirfRank"
                                     }
                                   />
                                   <div className="radiobx">NIRF Rank </div>
@@ -516,7 +583,7 @@ const MainSection = ({ getValueData }) => {
                                     value="medianSalary"
                                     onChange={handleFilterChange}
                                     checked={
-                                      filterByCollege.sortBy == "medianSalary"
+                                      filterByCollege.sortBy === "medianSalary"
                                     }
                                   />
                                   <div className="radiobx">Median Salary</div>
@@ -680,107 +747,58 @@ const MainSection = ({ getValueData }) => {
                         </div>
                       </div>
                     </div>
-                    {/* <div className="accordion-item">
-                  <button
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne5"
-                    className="collapsed"
-                    aria-expanded="false"
-                    fdprocessedid="sxwxf"
-                  >
-                    City
-                  </button>
-                  <div
-                    id="collapseOne5"
-                    className="accordion-collapse collapse"
-                    data-bs-parent="#accordionCourse3"
-                  >
-                    <div className="accordion-body" id="stateFilter">
-                      <div className="acc_heightbx">
-                        <ul className="acc-list " id="ownershipnew">
-                          <li>
-                            <label htmlFor="r1345" className="customradio">
-                              <input
-                                type="radio"
-                                id="r1345"
-                                className="customradioinput"
-                                name="test1345"
-                              />
-                              <div className="radiobx">
-                                Computer Science Engineering
-                              </div>
-                            </label>
-                          </li>
-                          <li>
-                            <label htmlFor="r2345" className="customradio">
-                              <input
-                                type="radio"
-                                id="r2345"
-                                className="customradioinput"
-                                name="test1345"
-                              />
-                              <div className="radiobx">
-                                Electronics and Communication Engineering
-                              </div>
-                            </label>
-                          </li>
-                          <li>
-                            <label htmlFor="r3345" className="customradio">
-                              <input
-                                type="radio"
-                                id="r3345"
-                                className="customradioinput"
-                                name="test1345"
-                              />
-                              <div className="radiobx">
-                                Electrical Engineering
-                              </div>
-                            </label>
-                          </li>
 
-                          <li>
-                            <label htmlFor="r3445" className="customradio">
-                              <input
-                                type="radio"
-                                id="r3445"
-                                className="customradioinput"
-                                name="test134"
-                              />
-                              <div className="radiobx">Civil Engineering</div>
-                            </label>
-                          </li>
-
-                          <li>
-                            <label htmlFor="r3545" className="customradio">
-                              <input
-                                type="radio"
-                                id="r3545"
-                                className="customradioinput"
-                                name="test134"
-                              />
-                              <div className="radiobx">
-                                Electrical and Electronics Engineering
-                              </div>
-                            </label>
-                          </li>
-                          <li>
-                            <label htmlFor="r3645" className="customradio">
-                              <input
-                                type="radio"
-                                id="r3645"
-                                className="customradioinput"
-                                name="test1345"
-                              />
-                              <div className="radiobx">
-                                Mechanical Engineering
-                              </div>
-                            </label>
-                          </li>
-                        </ul>
+                    {filterByCollege.filterStateId.length > 0 && (
+                      <div className="accordion-item">
+                        <button
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseOne5"
+                          className="collapsed"
+                          aria-expanded="false"
+                          fdprocessedid="sxwxf"
+                        >
+                          City
+                        </button>
+                        <div
+                          id="collapseOne5"
+                          className="accordion-collapse collapse"
+                          data-bs-parent="#accordionCourse3"
+                        >
+                          <div className="accordion-body" id="stateFilter">
+                            <div className="acc_heightbx">
+                              <ul className="acc-list " id="ownershipnew">
+                                {cityList.map((city, i) => {
+                                  return (
+                                    <li key={i}>
+                                      <label
+                                        htmlFor={city.cityId}
+                                        className="customradio"
+                                      >
+                                        <input
+                                          type="radio"
+                                          id={city.cityId}
+                                          className="customradioinput"
+                                          name="cityId"
+                                          value={city.cityId}
+                                          checked={
+                                            filterByCollege.cityId ==
+                                            city.cityId
+                                          }
+                                          onChange={handleFilterChange}
+                                        />
+                                        <div className="radiobx">
+                                          {city?.cityName}
+                                        </div>
+                                      </label>
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </div> */}
+                    )}
                   </div>
                 </div>
               </div>

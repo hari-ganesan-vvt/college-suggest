@@ -1,9 +1,9 @@
 import React from "react";
-import { MdOutlinePayments, MdSearch } from "react-icons/md";
+import { MdOutlinePayments, MdSearch, MdHouse } from "react-icons/md";
 import Carousel from "./Carousel";
 import noLogo from "../../assets/no_logo.webp";
 
-const MainCard = ({ listdata }) => {
+const MainCard = ({ listdata, stateInfo }) => {
   return (
     <div className="main_card">
       <div className="main_card_head d-flex align-items-center">
@@ -18,10 +18,14 @@ const MainCard = ({ listdata }) => {
           />
         </div>
         <div className="m-logo_bx_right">
-          <a className="titlelinks">
-            {listdata.cs_collegename}
-            {/* IIT Delhi - Indian Institute of Technology - [IITD] */}
-          </a>
+          <a className="titlelinks">{listdata.cs_collegename}</a>
+
+          {stateInfo.stateName === listdata.stateName && (
+            <span className="material-icons m_logo_bx_icn">
+              <MdHouse />
+            </span>
+          )}
+
           <p className="locationpara">
             {listdata.cityName},{listdata?.stateName}
           </p>
@@ -179,7 +183,8 @@ const MainCard = ({ listdata }) => {
         <div className="row hint-row">
           <div className="col-md-9 col-sm-12">
             <p className="hintpara">
-              Your Chances are Good in 8 out of 8 Courses
+              Your Chances are Good in {listdata.j_course.length} out of &nbsp;
+              {listdata.j_course.length} Courses
             </p>
           </div>
 
