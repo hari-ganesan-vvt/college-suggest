@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   MdPerson,
@@ -16,17 +16,34 @@ import navLogo from "../../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../redux/Action/userAction/userAction";
 import { toast } from "react-toastify";
+import LoginSidebar from "../loginSidebar/LoginSidebar";
+import user from "../../models/user.model";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const userAuth = useSelector((state) => state.userLogin);
   const [profileShow, setProfileShow] = useState(false);
+  const [userDetails, setUserDetails] = useState([]);
   const { userInfo } = userAuth;
 
   const handleLogout = () => {
-    dispatch(userLogout());
+    const { userId } = userInfo;
+    dispatch(userLogout(userId));
     toast.success("Logout Successfull");
   };
+
+  const getUserDetails = async () => {
+    try {
+      const { data } = await user.userDetails(userInfo.userId);
+      setUserDetails(data.userDetails);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, [userInfo]);
 
   return (
     <nav>
@@ -351,7 +368,7 @@ const Navbar = () => {
                   </div>
                   <div className="pname user-profile hiddenname">
                     <div className="d-flex align-items-center">
-                      <span className="uname">hariharan5235</span>
+                      <span className="uname">{userDetails[0]?.name}</span>
                       <MdOutlineArrowDropDown className="material-icons" />
                     </div>
                   </div>
@@ -371,7 +388,7 @@ const Navbar = () => {
                             alt=""
                           />
                         </div>
-                        <em>hariharan5235</em>
+                        <em>{userDetails[0]?.name}</em>
                       </span>
                     </div>
                     <ul className="dropcontent">
@@ -468,6 +485,7 @@ const Navbar = () => {
           </div>
         </div>
       </header>
+      <LoginSidebar />
     </nav>
   );
 };

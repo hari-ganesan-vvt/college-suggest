@@ -1,46 +1,67 @@
 import React, { useState } from "react";
-import googleIcon from "../../assets/gleicn.png";
-import fbIcon from "../../assets/fbicn.png";
+import googleIcon from "../../assets/googleIcon.svg";
+import fbIcon from "../../assets/facebookIcon.svg";
 import { useDispatch } from "react-redux";
 import {
   userLogin,
   userSignup,
+  userVerifyOtp,
 } from "../../redux/Action/userAction/userAction";
 import { toast } from "react-toastify";
 
 const LoginSidebar = () => {
   const dispatch = useDispatch();
+
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [otp, setOtp] = useState("");
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [showOtp, setShowOtp] = useState(false);
 
   const handleSignup = (e) => {
     e.preventDefault();
     if (username === "" || email === "" || mobile === "") {
-      // alert("Field is required!");
       toast.error("Field is required");
     } else {
       dispatch(userSignup(username, email, mobile));
-      alert("Register Success");
-      setEmail("");
-      setMobile("");
-      setUserName("");
     }
   };
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (mobile === "") {
-      // alert("Mobile number required");
+    if (phoneNumber === "") {
       toast.error("Mobile is required");
     } else {
-      dispatch(userLogin(mobile));
-      toast.success("Successfully Login");
+      toast.success("OTP Send");
+      setShowSidebar(!showSidebar);
+      setShowOtp(true);
+      setPhoneNumber("");
+      dispatch(userLogin(phoneNumber));
     }
+  };
+
+  const handleverifyOTP = async (e) => {
+    e.preventDefault();
+    if (otp === "") {
+      toast.error("Enter the OTP");
+    } else {
+      try {
+        dispatch(userVerifyOtp(otp));
+        setOtp("");
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    setShowSidebar(!showSidebar);
+    setTimeout(() => {
+      setShowOtp(false);
+    }, 3000);
   };
   return (
     <div
-      className="offcanvas offcanvas-end customlog-modal "
+      className="offcanvas offcanvas-end customlog-modal"
       tabIndex="-1"
       id="offcanvasRight"
       aria-labelledby="offcanvasRightLabel"
@@ -95,37 +116,77 @@ const LoginSidebar = () => {
             aria-labelledby="pills-home-tab"
             tabIndex="0"
           >
-            <form action="#" className="d-block w-100" onSubmit={handleLogin}>
-              <div className="siderbarform">
-                <div className="form-row">
-                  <label htmlFor="#">Phone Number</label>
-                  <input
-                    type="text"
-                    placeholder="Enter phone number"
-                    onChange={(e) => setMobile(e.target.value)}
-                    // className={error ? "invalid" : ""}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="clg-sug-primebtn w-100"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasRight"
-                  aria-controls="offcanvasRight"
-                >
-                  Login
-                </button>
-              </div>
-            </form>
-            <div className="d-flex justify-content-center align-items-center mt-2">
-              <a href="#" className="socialicn-links">
-                <img src={googleIcon} alt="google images" />
-              </a>
+            {showOtp ? (
+              <form
+                action="#"
+                className="d-block w-100"
+                onSubmit={handleverifyOTP}
+              >
+                <div className="siderbarform">
+                  <div className="form-row">
+                    <label htmlFor="#">OTP Number</label>
+                    <input
+                      type="text"
+                      placeholder="Enter Your OTP Here.."
+                      value={otp}
+                      name="otp"
+                      onChange={(e) => setOtp(e.target.value)}
+                    />
+                  </div>
 
-              <a href="#" className="socialicn-links">
-                <img src={fbIcon} alt="facbook images" />
-              </a>
-            </div>
+                  <div className="mt-3">Resend OTP</div>
+                  <button
+                    type="submit"
+                    className="clg-sug-primebtn w-100"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight"
+                    aria-controls="offcanvasRight"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <>
+                <form
+                  action="#"
+                  className="d-block w-100"
+                  onSubmit={handleLogin}
+                >
+                  <div className="siderbarform">
+                    <div className="form-row">
+                      <label htmlFor="#">Phone Number</label>
+                      <input
+                        type="text"
+                        placeholder="Enter phone number"
+                        value={phoneNumber}
+                        name="phoneNumber"
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        // className={error ? "invalid" : ""}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="clg-sug-primebtn w-100"
+                      // data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                    >
+                      Login
+                    </button>
+                  </div>
+                </form>
+                <div className="d-flex justify-content-center align-items-center mt-2">
+                  <a href="#" className="socialicn-links">
+                    <img src={googleIcon} alt="google images" />
+                  </a>
+
+                  <a href="#" className="socialicn-links">
+                    <img src={fbIcon} alt="facbook images" />
+                  </a>
+                </div>
+              </>
+            )}
           </div>
 
           <div
@@ -152,6 +213,7 @@ const LoginSidebar = () => {
                   <input
                     type="text"
                     placeholder="Contact number"
+                    name="mobile"
                     value={mobile}
                     onChange={(e) => setMobile(e.target.value)}
                   />
@@ -171,9 +233,9 @@ const LoginSidebar = () => {
                   type="submit"
                   className="clg-sug-primebtn w-100"
                   onClick={handleSignup}
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasRight"
-                  aria-controls="offcanvasRight"
+                  // data-bs-toggle="offcanvas"
+                  // data-bs-target="#offcanvasRight"
+                  // aria-controls="offcanvasRight"
                 >
                   Signup
                 </button>

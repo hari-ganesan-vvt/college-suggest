@@ -20,7 +20,7 @@ const MainSection = ({ getValueData }) => {
   const [cityList, setCityList] = useState([]);
   const [collegeList, setCollegeList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [filterByCollege, setFilterByCollege] = useState({
     rankId: getValueData?.rankId,
     casteId: getValueData?.casteId,
@@ -47,16 +47,6 @@ const MainSection = ({ getValueData }) => {
     courseId: parseInt(filterByCollege.courseList),
   });
 
-  // const findHomeIcon = _.find(collegeList, function (item) {
-  //   return item.stateName == findFormState.stateName;
-  // });
-
-  // console.log(findHomeIcon);
-  // const homeStateValue = _.find(collegeList, {
-  //   stateName: selectedStateValue.stateName.toString(),
-  // });
-
-  // console.log(homeStateValue);
   const handleSelectedAllClear = () => {
     setFilterByCollege({
       ...filterByCollege,
@@ -98,7 +88,6 @@ const MainSection = ({ getValueData }) => {
     setCityList(college);
   };
 
-  // console.log("cityList", cityList);
   //form submitValues
   const responseSubmitData = async () => {
     setLoading(true);
@@ -170,11 +159,6 @@ const MainSection = ({ getValueData }) => {
     const { name, value } = e.target;
     setFilterByCollege({ ...filterByCollege, [name]: value });
   };
-
-  //showMore button
-  // const showMoreItem = () => {
-  //   setIterPerPage((prev) => prev + 6);
-  // };
 
   useEffect(() => {
     predictorStateList();
@@ -498,7 +482,6 @@ const MainSection = ({ getValueData }) => {
                                     name="orderBy"
                                     value="asc"
                                     onChange={handleFilterChange}
-                                    // onClick={ascendingEvent}
                                     checked={filterByCollege.orderBy == "asc"}
                                   />
                                   <div className="radiobx">Ascending </div>
@@ -676,7 +659,6 @@ const MainSection = ({ getValueData }) => {
                                             courseItem.courseId
                                           }
                                           onChange={handleFilterChange}
-                                          // onClick={handleFilterByCourse}
                                         />
                                         <div className="radiobx">
                                           {
@@ -732,8 +714,6 @@ const MainSection = ({ getValueData }) => {
                                           }
                                           className="customradioinput"
                                           onChange={handleFilterChange}
-
-                                          // onClick={handleFilterByCourse}
                                         />
                                         <div className="radiobx">
                                           {stateItem.stateName}

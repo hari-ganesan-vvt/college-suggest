@@ -24,7 +24,7 @@ const App = () => {
         <Route path="/predictor" element={<Predictor />} />
         <Route path="/overallrank" element={<OverallRank />} />
       </Routes>
-      <LoginSidebar />
+
       <ToastContainer
         position="top-center"
         autoClose={2000}

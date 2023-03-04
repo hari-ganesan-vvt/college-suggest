@@ -21,27 +21,26 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
   });
 
   //formik
-  const { values, handleChange, errors, isSubmitting, touched, handleSubmit } =
-    useFormik({
-      initialValues: {
-        rankType: "",
-        rankId: "",
-        stateId: "",
-        casteId: "",
-        genderId: "",
-        abled: "0",
-        courseList: "",
-      },
-      validationSchema: basicValidation,
-      onSubmit: (values) => {
-        if (userInfo === null) {
-          toast.warn("Login First");
-        } else {
-          sessionStorage.setItem("_values", JSON.stringify(values));
-          navigate("/overallrank");
-        }
-      },
-    });
+  const { values, handleChange, errors, touched, handleSubmit } = useFormik({
+    initialValues: {
+      rankType: "",
+      rankId: "",
+      stateId: "",
+      casteId: "",
+      genderId: "",
+      abled: "0",
+      courseList: "",
+    },
+    validationSchema: basicValidation,
+    onSubmit: (values) => {
+      if (userInfo === null) {
+        toast.warn("Login First");
+      } else {
+        sessionStorage.setItem("_values", JSON.stringify(values));
+        navigate("/overallrank");
+      }
+    },
+  });
 
   return (
     <div
@@ -53,12 +52,7 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
       <div className="tab_warp">
         {/* <!-- checkbox-sec-here-ends --> */}
         <div className="fromblock d-block">
-          <form
-            action="overallrank.php"
-            method="POST"
-            onSubmit={handleSubmit}
-            id="courseForm"
-          >
+          <form method="POST" onSubmit={handleSubmit} id="courseForm">
             {/* <!-- checkbox-sec-here --> */}
             <div className="form-row">
               <div className="chectop is-invalid">
@@ -292,7 +286,6 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
             {userInfo ? (
               <input
                 type="submit"
-                disabled={isSubmitting}
                 className="clg-sug-primebtn submitbtn"
                 value="Submit"
               />

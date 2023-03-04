@@ -1,12 +1,11 @@
 import user from "../../../models/user.model";
 
 //login
-export const userLogin = (mobile) => async (dispatch) => {
+export const userLogin = (phoneNumber) => async (dispatch) => {
   try {
-    const { data } = await user.userLogin(mobile);
-    console.log(data);
+    const { data } = await user.userLogin(phoneNumber);
+    // console.log(data);
     dispatch({ type: "USER_LOGIN_SUCCESS", payload: data });
-    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     console.log(error);
     dispatch({
@@ -19,10 +18,28 @@ export const userLogin = (mobile) => async (dispatch) => {
   }
 };
 
-//logout
-export const userLogout = () => async (dispatch) => {
+//otpcheck
+export const userVerifyOtp = (otp) => async (dispatch) => {
   try {
-    const { data } = await user.userLogout();
+    const { data } = await user.userVerifyOtp(otp);
+    dispatch({ type: "USER_OTP_VERIFY", payload: data });
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    console.log(error);
+    // dispatch({
+    //   type: "USER_OTP_FAIL",
+    //   payload:
+    //     error.response && error.response.data.message
+    //       ? error.response.data.message
+    //       : error.message,
+    // });
+  }
+};
+
+//logout
+export const userLogout = (userId) => async (dispatch) => {
+  try {
+    const { data } = await user.userLogout(userId);
     localStorage.removeItem("userInfo");
     dispatch({ type: "USER_LOGOUT", payload: data });
   } catch (error) {
