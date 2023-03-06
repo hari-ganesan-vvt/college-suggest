@@ -6,7 +6,7 @@ import Home from "./pages/Home/Home";
 import Predictor from "./pages/PredictorPage/Predictor";
 import Navbar from "./components/nav/Navbar";
 import OverallRank from "./pages/overallRank/OverallRank";
-import LoginSidebar from "./components/loginSidebar/LoginSidebar";
+import Footer from "./components/footer/Footer";
 
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -24,7 +24,7 @@ const App = () => {
         <Route path="/predictor" element={<Predictor />} />
         <Route path="/overallrank" element={<OverallRank />} />
       </Routes>
-
+      <Footer />
       <ToastContainer
         position="top-center"
         autoClose={2000}

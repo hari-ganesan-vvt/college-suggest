@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import googleIcon from "../../assets/googleIcon.svg";
-import fbIcon from "../../assets/facebookIcon.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   userLogin,
   userSignup,
   userVerifyOtp,
 } from "../../redux/Action/userAction/userAction";
 import { toast } from "react-toastify";
+import Assets from "../../imports/assets.imports";
 
 const LoginSidebar = () => {
   const dispatch = useDispatch();
 
+  const verifyUser = useSelector((state) => state.userLogin);
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
@@ -44,21 +44,20 @@ const LoginSidebar = () => {
 
   const handleverifyOTP = async (e) => {
     e.preventDefault();
+    const { userOTP } = verifyUser.user;
     if (otp === "") {
       toast.error("Enter the OTP");
     } else {
-      try {
-        dispatch(userVerifyOtp(otp));
-        setOtp("");
-      } catch (error) {
-        console.log(error);
-      }
+      setShowSidebar(!showSidebar);
+      dispatch(userVerifyOtp(otp));
+      setOtp("");
     }
-    setShowSidebar(!showSidebar);
+
     setTimeout(() => {
       setShowOtp(false);
     }, 3000);
   };
+
   return (
     <div
       className="offcanvas offcanvas-end customlog-modal"
@@ -162,7 +161,6 @@ const LoginSidebar = () => {
                         value={phoneNumber}
                         name="phoneNumber"
                         onChange={(e) => setPhoneNumber(e.target.value)}
-                        // className={error ? "invalid" : ""}
                       />
                     </div>
                     <button
@@ -178,11 +176,11 @@ const LoginSidebar = () => {
                 </form>
                 <div className="d-flex justify-content-center align-items-center mt-2">
                   <a href="#" className="socialicn-links">
-                    <img src={googleIcon} alt="google images" />
+                    <img src={Assets.googleIcon} alt="google images" />
                   </a>
 
                   <a href="#" className="socialicn-links">
-                    <img src={fbIcon} alt="facbook images" />
+                    <img src={Assets.facebookIcon} alt="facbook images" />
                   </a>
                 </div>
               </>
@@ -243,11 +241,11 @@ const LoginSidebar = () => {
             </form>
             <div className="d-flex justify-content-center align-items-center mt-2">
               <a href="#" className="socialicn-links">
-                <img src={googleIcon} alt="google images" />
+                <img src={Assets.googleIcon} alt="google images" />
               </a>
 
               <a href="#" className="socialicn-links">
-                <img src={fbIcon} alt="facbook images" />
+                <img src={Assets.facebookIcon} alt="facbook images" />
               </a>
             </div>
           </div>

@@ -50,7 +50,6 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
       aria-labelledby="pills-profile-tab"
     >
       <div className="tab_warp">
-        {/* <!-- checkbox-sec-here-ends --> */}
         <div className="fromblock d-block">
           <form method="POST" onSubmit={handleSubmit} id="courseForm">
             {/* <!-- checkbox-sec-here --> */}
@@ -63,7 +62,6 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
                     className="customradioinput"
                     name="rankType"
                     value="Category Rank"
-                    // defaultChecked={selectedRank === "Category Rank"}
                     onChange={handleChange}
                   />
                   <div className="radiobx">Category Rank</div>
@@ -75,7 +73,6 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
                     className="customradioinput"
                     name="rankType"
                     value="General Rank"
-                    // defaultChecked={selectedRank === "General Rank"}
                     onChange={handleChange}
                   />
                   <div className="radiobx">General Rank</div>
@@ -110,7 +107,6 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
                 }
                 onChange={handleChange}
                 value={values.rankId}
-                //   onKeyPress="return onlyNumberKey(event)"
               />
               <div className="invalid-feedback">
                 {errors.rankId && touched.rankId ? errors.rankId : null}
@@ -127,7 +123,6 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
                   (errors.courseList && touched.courseList ? " is-invalid" : "")
                 }
                 aria-label="Default select example"
-                // defaultValue={"DEFAULT"}
                 onChange={handleChange}
                 value={values.courseList}
               >
@@ -173,7 +168,6 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
                 }
                 onChange={handleChange}
                 value={values.stateId}
-                // defaultValue={"DEFAULT"}
               >
                 <option hidden value="DEFAULT" name="course">
                   Select your Home State
@@ -199,7 +193,6 @@ const CourseForm = ({ courseList, casteList, stateList }) => {
                 id="courseCasteName"
                 name="casteId"
                 aria-label="Default select example"
-                // defaultValue={"DEFAULT"}
                 className={
                   "form-control" +
                   (errors.casteId && touched.casteId ? " is-invalid" : "")

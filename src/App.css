@@ -51,7 +51,7 @@ h2 {
 h3 {
   font-family: "Poppins" !important;
   font-style: normal !important;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 19px !important;
   line-height: 26px !important;
   text-align: center !important;
@@ -1021,7 +1021,7 @@ input.customradioinput {
   line-height: 20px;
   color: #757575 !important;
   background-color: #fff;
-  background-image: url(./assets/downarrow.svg) !important;
+  background-image: url(./assets/icons/downarrow.svg) !important;
   background-repeat: no-repeat !important;
   background-position: right 0.75rem center !important;
   background-size: 10px 12px !important;
@@ -1204,6 +1204,10 @@ input.customradioinput {
   background: rgba(217, 217, 217, 0.2);
 }
 
+.typ-wrap_flex li .typbx:hover {
+  color: #06d0a5;
+}
+
 .typbx {
   background: rgba(217, 217, 217, 0.2) !important;
   border-radius: 25px;
@@ -1230,7 +1234,7 @@ input.customradioinput {
   border: 1px solid #202124;
 }
 
-.typbx svg {
+.typbx img {
   margin-right: 10px;
   width: 20px !important;
   height: 20px !important;
@@ -1898,6 +1902,8 @@ input.customradioinput {
 .bloG-con .mob-acc-body .mobile-accordiun-wrap .lessons-list {
   max-height: 50vh !important;
   overflow-y: auto;
+  padding: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .lessons-list li a {
@@ -2446,8 +2452,12 @@ li .con input {
   padding: 10px 30px;
   border-radius: 25px 25px 0px 0px;
   background-color: #ffffffe6;
+  margin-bottom: 0 !important;
 }
 
+.mb_warp_bx .material-icons {
+  font-size: 24px;
+}
 .elements.active i {
   color: #2ab38f !important;
 }
@@ -2542,6 +2552,7 @@ li .con input {
   line-height: 23px;
   color: #616161;
   font-weight: 400;
+  margin-bottom: 0;
 }
 
 .cls_mobilenav {
@@ -2746,6 +2757,7 @@ i.material-icons.s_cur {
 
 .mobile-accordiun-wrap .main-menu li {
   border-bottom: 1px solid #eee !important;
+  list-style-type: none;
 }
 
 .mobile-accordiun-wrap .main-menu li a {

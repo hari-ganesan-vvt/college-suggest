@@ -8,6 +8,8 @@ import {
   MdVerified,
   MdFemale,
   MdClose,
+  MdMenu,
+  MdFilterList,
 } from "react-icons/md";
 import _ from "lodash";
 import Loading from "../Loading/Loading";
@@ -33,7 +35,8 @@ const MainSection = ({ getValueData }) => {
     sortBy: "",
     orderBy: "",
   });
-
+  const [menuShow, setMenuShow] = useState(false);
+  const [searchShow, setSearchShow] = useState(false);
   //findValues && selectedValues
   const findFormState = _.find(stateList, {
     stateId: parseInt(getValueData?.stateId),
@@ -78,15 +81,46 @@ const MainSection = ({ getValueData }) => {
             j_course_name: department.j_course,
             jFees: department.jFees,
             jSeats: department.jSeats,
+            j_closing_rank: department.j_closing_rank,
           });
         }
       }
+      // console.log(collegeData);
       college[i].j_course = courseList;
       courseList = [];
     }
+
+    console.log(college);
+    // rankBasedChange(college);
     setCollegeList(college);
     setCityList(college);
   };
+
+  // const rankBasedChange = (college) => {
+  //   const rank_Id = filterByCollege.rankId;
+
+  //   let sumOfResult = (rank_Id * 10) / 100;
+
+  //   const minRank = sumOfResult - 10;
+  //   const maxRank = sumOfResult + 10;
+
+  //   // console.log(minRank, maxRank);
+  //   // college.forEach((ele) => {
+  //   //   ele.j_course.forEach((course) => {
+  //   //     // console.log("first", course.j_closing_rank);
+  //       let rankno = course.j_closing_rank;
+  //       console.log(rankno);
+
+  //       if (minRank >= rankno) {
+  //         return;
+  //       } else if (maxRank <= rankno) {
+  //         return;
+  //       } else {
+  //         return;
+  //       }
+  //   //   });
+  //   // });
+  // };
 
   //form submitValues
   const responseSubmitData = async () => {
@@ -158,6 +192,11 @@ const MainSection = ({ getValueData }) => {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilterByCollege({ ...filterByCollege, [name]: value });
+  };
+
+  //mobileShow footer
+  const handleMenu = () => {
+    setMenuShow(!menuShow);
   };
 
   useEffect(() => {
@@ -785,6 +824,878 @@ const MainSection = ({ getValueData }) => {
             </>
           </div>
         )}
+      </div>
+
+      <div>
+        <div className="fiter_Modal">
+          <div className="fiter_Modal_body">
+            <div className="fiter_Modal_head d-flex justify-content-between align-items-center">
+              <h5>Filters</h5>
+              <i className="material-icons closefiltermodal">
+                <MdClose />
+              </i>
+            </div>
+
+            <div className="f-body-warp">
+              <div className="cat-blocks">
+                <div className="cat_contents">
+                  <i className="material-icons cnlbutton">
+                    <MdClose />
+                  </i>
+                  <div className="ticktext">engineering</div>
+                </div>
+                <div className="cat_contents">
+                  <i className="material-icons cnlbutton">
+                    <MdClose />
+                  </i>
+                  <div className="ticktext">Civil engineering</div>
+                </div>
+                <div className="cat_contents">
+                  <i className="material-icons cnlbutton">
+                    <MdClose />
+                  </i>
+                  <div className="ticktext">Electrical Engineering</div>
+                </div>
+              </div>
+
+              <div className="course-accordion accordion" id="accordionCourse2">
+                <div className="accordion-item">
+                  <button
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne1m"
+                    className="collapsed"
+                    aria-expanded="false"
+                    fdprocessedid="sxwxf"
+                  >
+                    Sort by{" "}
+                  </button>
+                  <div
+                    id="collapseOne1m"
+                    className="accordion-collapse collapse"
+                    data-bs-parent="#accordionCourse2"
+                  >
+                    <div className="accordion-body" id="stateFilter">
+                      <div className="acc_heightbx">
+                        <ul className="acc-list " id="state_list">
+                          <li>
+                            <label htmlFor="r1m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r1m"
+                                className="customradioinput"
+                                name="test1m"
+                              />
+                              <div className="radiobx">Median Salary </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r2m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r2m"
+                                className="customradioinput"
+                                name="test1m"
+                              />
+                              <div className="radiobx">Andhra Pradesh</div>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="accordion-item">
+                  <button
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne2m"
+                    className="collapsed"
+                    aria-expanded="false"
+                    fdprocessedid="sxwxf"
+                  >
+                    Order by{" "}
+                  </button>
+                  <div
+                    id="collapseOne2m"
+                    className="accordion-collapse collapse"
+                    data-bs-parent="#accordionCourse2"
+                  >
+                    <div className="accordion-body" id="stateFilter">
+                      <div className="acc_heightbx">
+                        <ul className="acc-list " id="state_list">
+                          <li>
+                            <label htmlFor="r12m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r12m"
+                                className="customradioinput"
+                                name="test12m"
+                              />
+                              <div className="radiobx">Percentage </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r22m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r22m"
+                                className="customradioinput"
+                                name="test12m"
+                              />
+                              <div className="radiobx">Andhra Pradesh</div>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="accordion-item">
+                  <button
+                    className="collapsed1"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree3m"
+                    aria-expanded="true"
+                    fdprocessedid="cm6dn"
+                  >
+                    Courses
+                  </button>
+                  <div
+                    id="collapseThree3m"
+                    className="accordion-collapse collapse show"
+                    data-bs-parent="#accordionCourse2"
+                  >
+                    <div className="accordion-body" id="ownerShipFilter">
+                      <div className="sidebar-widget">
+                        <div className="widget-search d-block w-100">
+                          <form action="#" className="d-block">
+                            <div className="search_block mini">
+                              <i className="material-icons sicn">
+                                <MdSearch />
+                              </i>
+                              <input
+                                type="text"
+                                placeholder="Find Your Course"
+                              />
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+
+                      <div className="acc_heightbx">
+                        <ul className="acc-list " id="ownershipnew">
+                          <li>
+                            <label htmlFor="r13m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r13m"
+                                className="customradioinput"
+                                name="test13m"
+                              />
+                              <div className="radiobx">
+                                Computer Science Engineering{" "}
+                              </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r23m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r23m"
+                                className="customradioinput"
+                                name="test13m"
+                              />
+                              <div className="radiobx">
+                                Electronics and Communication Engineering
+                              </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r33m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r33m"
+                                className="customradioinput"
+                                name="test13m"
+                              />
+                              <div className="radiobx">
+                                Electrical Engineering
+                              </div>
+                            </label>
+                          </li>
+
+                          <li>
+                            <label htmlFor="r34m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r34m"
+                                className="customradioinput"
+                                name="test13m"
+                              />
+                              <div className="radiobx">Civil Engineering</div>
+                            </label>
+                          </li>
+
+                          <li>
+                            <label htmlFor="r35m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r35m"
+                                className="customradioinput"
+                                name="test13m"
+                              />
+                              <div className="radiobx">
+                                Electrical and Electronics Engineering
+                              </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r36m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r36m"
+                                className="customradioinput"
+                                name="test13m"
+                              />
+                              <div className="radiobx">
+                                Mechanical Engineering
+                              </div>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="accordion-item">
+                  <button
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne4m"
+                    className="collapsed"
+                    aria-expanded="false"
+                    fdprocessedid="sxwxf"
+                  >
+                    State
+                  </button>
+                  <div
+                    id="collapseOne4m"
+                    className="accordion-collapse collapse"
+                    data-bs-parent="#accordionCourse2"
+                  >
+                    <div className="accordion-body" id="stateFilter">
+                      <div className="acc_heightbx">
+                        <ul className="acc-list " id="ownershipnew">
+                          <li>
+                            <label htmlFor="r134m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r134m"
+                                className="customradioinput"
+                                name="test134m"
+                              />
+                              <div className="radiobx">
+                                Computer Science Engineering{" "}
+                              </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r234m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r234m"
+                                className="customradioinput"
+                                name="test134m"
+                              />
+                              <div className="radiobx">
+                                Electronics and Communication Engineering
+                              </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r334m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r334m"
+                                className="customradioinput"
+                                name="test134m"
+                              />
+                              <div className="radiobx">
+                                Electrical Engineering
+                              </div>
+                            </label>
+                          </li>
+
+                          <li>
+                            <label htmlFor="r3334m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r3334m"
+                                className="customradioinput"
+                                name="test134m"
+                              />
+                              <div className="radiobx">Civil Engineering</div>
+                            </label>
+                          </li>
+
+                          <li>
+                            <label htmlFor="r354m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r354m"
+                                className="customradioinput"
+                                name="test134m"
+                              />
+                              <div className="radiobx">
+                                Electrical and Electronics Engineering
+                              </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r364m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r364m"
+                                className="customradioinput"
+                                name="test134m"
+                              />
+                              <div className="radiobx">
+                                Mechanical Engineering
+                              </div>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="accordion-item">
+                  <button
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne5m"
+                    className="collapsed"
+                    aria-expanded="false"
+                    fdprocessedid="sxwxf"
+                  >
+                    City{" "}
+                  </button>
+                  <div
+                    id="collapseOne5m"
+                    className="accordion-collapse collapse"
+                    data-bs-parent="#accordionCourse2"
+                  >
+                    <div className="accordion-body" id="stateFilter">
+                      <div className="acc_heightbx">
+                        <ul className="acc-list " id="ownershipnew">
+                          <li>
+                            <label htmlFor="r1345m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r1345m"
+                                className="customradioinput"
+                                name="test1345m"
+                              />
+                              <div className="radiobx">
+                                Computer Science Engineering{" "}
+                              </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r2345m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r2345m"
+                                className="customradioinput"
+                                name="test1345m"
+                              />
+                              <div className="radiobx">
+                                Electronics and Communication Engineering
+                              </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r3345m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r3345m"
+                                className="customradioinput"
+                                name="test1345m"
+                              />
+                              <div className="radiobx">
+                                Electrical Engineering
+                              </div>
+                            </label>
+                          </li>
+
+                          <li>
+                            <label htmlFor="r3445m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r3445m"
+                                className="customradioinput"
+                                name="test134m"
+                              />
+                              <div className="radiobx">Civil Engineering</div>
+                            </label>
+                          </li>
+
+                          <li>
+                            <label htmlFor="r3545m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r3545m"
+                                className="customradioinput"
+                                name="test134m"
+                              />
+                              <div className="radiobx">
+                                Electrical and Electronics Engineering
+                              </div>
+                            </label>
+                          </li>
+                          <li>
+                            <label htmlFor="r3645m" className="customradio">
+                              <input
+                                type="radio"
+                                id="r3645m"
+                                className="customradioinput"
+                                name="test1345m"
+                              />
+                              <div className="radiobx">
+                                Mechanical Engineering
+                              </div>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb_container">
+          <div
+            className="mobile_tab_overlay"
+            style={{ display: menuShow ? "block" : "none" }}
+          ></div>
+
+          <div className={`tab_con ${menuShow ? "active" : ""}`}>
+            <div className="px-3 py-2">
+              <div className="d-flex align-items-center mb-2">
+                <div className="header-logo" style={{ margin: "auto" }}>
+                  <a href="https://collegesuggest.com/">
+                    <img
+                      alt="College Suggest Logo"
+                      title="College Suggest Logo"
+                      src="https://collegesuggest.com/assets/images/logo.png"
+                    />
+                  </a>
+                </div>
+                <MdClose className="material-icons cls_mobilenav" />
+              </div>
+              <div
+                id="London"
+                className="tab"
+                value="0"
+                style={{
+                  display: menuShow
+                    ? "block"
+                    : "none" || searchShow
+                    ? "block"
+                    : "none",
+                }}
+              >
+                <div className="bloG-con">
+                  <div className="mob-acc-body px-0" id="offcanvasMenu">
+                    <div className="mobile-accordiun-wrap">
+                      <ul className="main-menu lessons-list">
+                        <li>
+                          <a href="https://collegesuggest.com/">Home</a>
+                        </li>
+                        <li>
+                          <a href="https://collegesuggest.com/about.html">
+                            About
+                          </a>
+                        </li>
+
+                        <li>
+                          <div
+                            className="course-accordion accordion"
+                            id="accordionCourse4"
+                          >
+                            <ul className="d-block w-100 p-0">
+                              <li>
+                                <div className="accordion-item2 ac_it">
+                                  <button
+                                    className="collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseengineering"
+                                  >
+                                    <a>engineering</a>
+                                  </button>
+                                  <div
+                                    id="collapseengineering"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#accordionCourse4"
+                                  >
+                                    <div className="accordion-body ac_bd">
+                                      <ul className="link">
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/engineering/top-10-iit-engineering-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 IIT engineering Colleges in
+                                            india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/engineering/top-10-nit-engineering-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 NIT engineering Colleges in
+                                            india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/engineering/top-10-iiit-engineering-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 IIIT engineering Colleges in
+                                            india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/engineering/top-10-gfti-engineering-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 GFTI engineering Colleges in
+                                            india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/engineering/top-10-government-engineering-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 Government engineering
+                                            Colleges in india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/engineering/top-10-private-engineering-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 Private engineering Colleges
+                                            in india
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="accordion-item2 ac_it">
+                                  <button
+                                    className="collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsemedical"
+                                  >
+                                    <a>medical</a>
+                                  </button>
+                                  <div
+                                    id="collapsemedical"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#accordionCourse4"
+                                  >
+                                    <div className="accordion-body ac_bd">
+                                      <ul className="link">
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/medical/top-10-government-medical-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 Government medical Colleges
+                                            in india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/medical/top-10-private-medical-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 Private medical Colleges in
+                                            india
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li>
+                                <div className="accordion-item2 ac_it">
+                                  <button
+                                    className="collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsedental"
+                                  >
+                                    <a>dental</a>
+                                  </button>
+                                  <div
+                                    id="collapsedental"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#accordionCourse4"
+                                  >
+                                    <div className="accordion-body ac_bd">
+                                      <ul className="link">
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/dental/top-10-government-dental-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 Government dental Colleges in
+                                            india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/dental/top-10-private-dental-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 Private dental Colleges in
+                                            india
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li>
+                                <div className="accordion-item2 ac_it">
+                                  <button
+                                    className="collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsearchitecture"
+                                  >
+                                    <a>architecture</a>
+                                  </button>
+                                  <div
+                                    id="collapsearchitecture"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#accordionCourse4"
+                                  >
+                                    <div className="accordion-body ac_bd">
+                                      <ul className="link">
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/architecture/top-10-iit-architecture-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 IIT architecture Colleges in
+                                            india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/architecture/top-10-nit-architecture-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 NIT architecture Colleges in
+                                            india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/architecture/top-10-government-architecture-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 Government architecture
+                                            Colleges in india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/architecture/top-10-private-architecture-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 Private architecture Colleges
+                                            in india
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li>
+                                <div className="accordion-item2 ac_it">
+                                  <button
+                                    className="collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapsepharmacy"
+                                  >
+                                    <a>pharmacy</a>
+                                  </button>
+                                  <div
+                                    id="collapsepharmacy"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#accordionCourse4"
+                                  >
+                                    <div className="accordion-body ac_bd">
+                                      <ul className="link">
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/pharmacy/top-10-government-pharmacy-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 Government pharmacy Colleges
+                                            in india
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a
+                                            href="https://collegesuggest.com/pharmacy/top-10-private-pharmacy-colleges-in-india.html"
+                                            id="topiit"
+                                          >
+                                            Top 10 Private pharmacy Colleges in
+                                            india
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li>
+                                <div className="accordion-item2 ac_it">
+                                  <button
+                                    className="collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseexam"
+                                  >
+                                    <a>Exams</a>
+                                  </button>
+                                  <div
+                                    id="collapseexam"
+                                    className="accordion-collapse collapse"
+                                    data-bs-parent="#accordionCourse4"
+                                  >
+                                    <div className="accordion-body ac_bd">
+                                      <ul className="link">
+                                        <li>
+                                          <a href="https://collegesuggest.com/engineering-exam/entrance-exams.html">
+                                            engineering Exam
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a href="https://collegesuggest.com/medical-exam/entrance-exams.html">
+                                            medical Exam
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </li>
+
+                        <li>
+                          {" "}
+                          <a href="https://collegesuggest.com/rankPredictor.html">
+                            Predictions
+                          </a>
+                        </li>
+                        <li>
+                          {" "}
+                          <a href="https://collegesuggest.com/contact.html">
+                            Contact
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                id="Paris"
+                className="tab"
+                value="1"
+                style={{
+                  display: menuShow
+                    ? "block"
+                    : "none" || searchShow
+                    ? "block"
+                    : "none",
+                }}
+              >
+                <div className="d-flex border-bottom border-light mb-2">
+                  <h3 className="menu-title">Search</h3>
+                </div>
+                <div className="from-group align-items-center s_bcon">
+                  <div className="form-outline d-flex custom_bar">
+                    <input
+                      type="text"
+                      name="searchTheCollege"
+                      id="searchTheCollege"
+                      placeholder="Search Colleges &amp; more"
+                      className="mb-0"
+                    />
+                    <i className="material-icons s_cur">
+                      <MdSearch />
+                    </i>
+                  </div>
+                  <div id="searchresult"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ul className="mb_warp_bx">
+            <li
+              className="block m_block_list d-flex align-items-center justify-content-center tab-control elements"
+              value="0"
+              onClick={handleMenu}
+            >
+              <i className="material-icons m_nav_icn me-1">
+                <MdMenu />
+              </i>
+              <p className="text-center m_nav_txt">Menu</p>
+            </li>
+            <li
+              className="block m_block_list d-flex align-items-center justify-content-center tab-control elements"
+              value="1"
+              onClick={() => setSearchShow(!searchShow)}
+            >
+              <i className="material-icons  m_nav_icn me-1">
+                <MdSearch />
+              </i>
+              <p className="text-center m_nav_txt">search</p>
+            </li>
+            <li className="block d-flex align-items-center justify-content-center">
+              <button className="openpop">
+                <i className="material-icons vm me-2">
+                  <MdFilterList />
+                </i>
+                Filters
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
   );

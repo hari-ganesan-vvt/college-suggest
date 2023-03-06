@@ -12,12 +12,12 @@ import {
   MdVpnKey,
   MdOutlineLogout,
 } from "react-icons/md";
-import navLogo from "../../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../redux/Action/userAction/userAction";
 import { toast } from "react-toastify";
 import LoginSidebar from "../loginSidebar/LoginSidebar";
 import user from "../../models/user.model";
+import Assets from "../../imports/assets.imports";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const Navbar = () => {
 
   const getUserDetails = async () => {
     try {
-      const { data } = await user.userDetails(userInfo.userId);
+      const { data } = await user.userDetails(userInfo?.userId);
       setUserDetails(data.userDetails);
     } catch (error) {
       console.log(error);
@@ -51,7 +51,7 @@ const Navbar = () => {
         <div className="container">
           <div className="nav_warp">
             <Link to="/" className="logo_bx">
-              <img src={navLogo} alt="top logo" />
+              <img src={Assets.Logo} alt="top logo" />
             </Link>
             <div className="nav_links_warp">
               <ul className="nav_underlist">

@@ -1,7 +1,7 @@
 import React from "react";
 import { MdOutlinePayments, MdSearch, MdHouse } from "react-icons/md";
+import Assets from "../../imports/assets.imports";
 import Carousel from "./Carousel";
-import noLogo from "../../assets/no_logo.webp";
 
 const MainCard = ({ listdata, stateInfo }) => {
   return (
@@ -11,7 +11,7 @@ const MainCard = ({ listdata, stateInfo }) => {
           <img
             src={
               listdata.cs_collegelogo == ""
-                ? noLogo
+                ? Assets.noLogoImg
                 : `https://collegesuggest.com/assets/images/${listdata.cs_collegelogo}`
             }
             alt="collegeLogo"

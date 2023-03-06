@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import LoginSidebar from "../../components/loginSidebar/LoginSidebar";
-import Footer from "../../components/footer/Footer";
-import ThumbImg from "../../assets/dummythumb.png";
 import Modal from "../../components/predictorLayout/Modal";
 import Form from "../../components/predictorLayout/Form";
+import Assets from "../../imports/assets.imports";
 
 const Predictor = () => {
   useEffect(() => {
@@ -93,7 +92,7 @@ const Predictor = () => {
                 href="#exampleModalToggleutube"
                 role="button"
               >
-                <img src={ThumbImg} alt="thumb" />
+                <img src={Assets.dummyThumb} alt="thumb" />
               </div>
             </div>
           </div>
@@ -102,7 +101,6 @@ const Predictor = () => {
       </section>
       <Form />
       <LoginSidebar />
-      <Footer />
     </div>
   );
 };
