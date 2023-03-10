@@ -1,9 +1,14 @@
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import MainSection from "../../components/overallRankLayout/MainSection";
 import Assets from "../../imports/assets.imports";
 
 const OverallRank = () => {
+  const dispatch = useDispatch();
+  const filterAll = useSelector((state) => state.filterChange);
+
+  // console.log(filterAll);
   //getValues session Storage
   const getValueData = sessionStorage.getItem("_values")
     ? JSON.parse(sessionStorage.getItem("_values"))
@@ -25,7 +30,8 @@ const OverallRank = () => {
                     Select JEE Main 2023 College Admission Counseling
                   </h1>
                   <p className="paratitle">
-                    College Predictor Results Shown for 75 JEE Paper-1
+                    College Predictor Results Shown for {getValueData?.rankId}
+                    &nbsp; JEE Paper-1
                     <span>{getValueData?.rankType}</span>
                   </p>
                 </div>
@@ -61,9 +67,6 @@ const OverallRank = () => {
             <ul className="typ-wrap_flex">
               <li>
                 <a href="#" className="typbx active">
-                  {/* <div className="minicons">
-                    <img src={favicg} alt="" />
-                  </div> */}
                   <img src={Assets.allArrow} />
                   All
                 </a>
@@ -77,21 +80,33 @@ const OverallRank = () => {
                 </a>
               </li>
 
-              <li>
+              <li
+                onClick={() =>
+                  dispatch({ type: "HIGH_CHANGE", payload: "HIGH_UPDATED" })
+                }
+              >
                 <a href="#" className="typbx">
                   <img src={Assets.highEmoji} alt="HighEmoji" />
                   High
                 </a>
               </li>
 
-              <li>
+              <li
+                onClick={() =>
+                  dispatch({ type: "MEDIUM_CHANGE", payload: "MEDIUM_UPDATED" })
+                }
+              >
                 <a href="#" className="typbx">
                   <img src={Assets.mediumEmoji} alt="mediumEmoji" />
                   Medium
                 </a>
               </li>
 
-              <li>
+              <li
+                onClick={() =>
+                  dispatch({ type: "LOW_CHANGE", payload: "LOW_UPDATED" })
+                }
+              >
                 <a href="#" className="typbx">
                   <img src={Assets.lowEmoji} alt="lowEmoji" />
                   Low

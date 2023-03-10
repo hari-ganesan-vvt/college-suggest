@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import { BiCloudDownload } from "react-icons/bi";
@@ -6,7 +6,6 @@ import { MdOutlineBookmarkAdd } from "react-icons/md";
 import Assets from "../../imports/assets.imports";
 
 const Carousel = ({ listdata }) => {
-  // console.log(listdata);
   const swiperRef = useRef();
 
   const getValueData = sessionStorage.getItem("_values")
@@ -15,19 +14,19 @@ const Carousel = ({ listdata }) => {
 
   const rankBasedChange = (college) => {
     const rank_Id = getValueData?.rankId;
-
+    const closing_rankId = college;
     // console.log(college);
     let sumOfResult = (rank_Id * 10) / 100;
 
     const minRank = sumOfResult - 10;
     const maxRank = sumOfResult + 10;
 
-    if (minRank >= college.j_closing_rank) {
-      return Assets.lowEmoji;
-    } else if (maxRank <= college.j_closing_rank) {
-      return Assets.highEmoji;
-    } else {
+    if (closing_rankId >= minRank && closing_rankId <= maxRank) {
       return Assets.mediumEmoji;
+    } else if (closing_rankId >= minRank) {
+      return Assets.highEmoji;
+    } else if (closing_rankId <= maxRank) {
+      return Assets.lowEmoji;
     }
   };
 
@@ -70,19 +69,30 @@ const Carousel = ({ listdata }) => {
           return (
             <SwiperSlide key={i}>
               <div className="slidebx">
-                <a className="linktitle">{courseList.j_course_name}</a>
+                <a className="linktitle">
+                  {courseList[Object.keys(courseList)[0]].j_course_name}
+                </a>
                 <div className="preseat">
                   <div className="pretxt">
                     <p>
-                      Seats : <span>{courseList.jSeats}</span>
+                      Seats :
+                      <span>
+                        {courseList[Object.keys(courseList)[0]].jSeats}
+                      </span>
                     </p>
                     <p>
-                      Fee : <span>{courseList.jFees}</span>
+                      Fee :
+                      <span>
+                        {courseList[Object.keys(courseList)[0]].jFees}
+                      </span>
                     </p>
                   </div>
 
                   <div>
-                    <img src={rankBasedChange(courseList)} alt="" />
+                    <img
+                      src={rankBasedChange(Object.keys(courseList)[0])}
+                      alt="emoji"
+                    />
                   </div>
                 </div>
 

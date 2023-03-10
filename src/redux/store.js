@@ -5,10 +5,12 @@ import {
   userSignupReducer,
 } from "./reducer/userReducer/userReducer";
 import thunk from "redux-thunk";
+import { filterChangeReducer } from "./reducer/filterChange/filterChange";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userSignup: userSignupReducer,
+  filterChange: filterChangeReducer,
 });
 
 // login

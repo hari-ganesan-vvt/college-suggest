@@ -5,9 +5,9 @@ export const userLoginReducer = (state = {}, action) => {
     case "USER_LOGOUT_FAIL":
       return { error: action.payload };
     case "USER_OTP_VERIFY":
-      return { userInfo: action.payload };
+      return { isLoggedIn: true, userInfo: action.payload };
     case "USER_LOGOUT":
-      return { userInfo: null };
+      return { isLoggedIn: false, userInfo: null };
     default:
       return state;
   }

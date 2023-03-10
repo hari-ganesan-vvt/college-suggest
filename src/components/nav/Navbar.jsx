@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   MdPerson,
+  MdDashboard,
   MdOutlineArrowDropDown,
   MdOutlineExpandMore,
   MdStar,
   MdNotifications,
-  MdPreview,
-  MdRateReview,
-  MdOutlineHelp,
   MdVpnKey,
   MdOutlineLogout,
 } from "react-icons/md";
@@ -21,17 +19,14 @@ import Assets from "../../imports/assets.imports";
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const menuRef = useRef();
+
   const userAuth = useSelector((state) => state.userLogin);
   const [profileShow, setProfileShow] = useState(false);
   const [userDetails, setUserDetails] = useState([]);
   const { userInfo } = userAuth;
 
-  const handleLogout = () => {
-    const { userId } = userInfo;
-    dispatch(userLogout(userId));
-    toast.success("Logout Successfull");
-  };
-
+  //getUserDetails
   const getUserDetails = async () => {
     try {
       const { data } = await user.userDetails(userInfo?.userId);
@@ -41,9 +36,30 @@ const Navbar = () => {
     }
   };
 
+  //logout
+  const handleLogout = () => {
+    const { userId } = userInfo;
+    dispatch(userLogout(userId));
+    toast.success("Logout Successfull");
+  };
+
   useEffect(() => {
     getUserDetails();
   }, [userInfo]);
+
+  useEffect(() => {
+    let handler = (e) => {
+      if (!menuRef.current?.contains(e.target)) {
+        setProfileShow(false);
+        console.log();
+      }
+    };
+
+    window.addEventListener("mousedown", handler);
+    return () => {
+      window.removeEventListener("mousedown", handler);
+    };
+  }, []);
 
   return (
     <nav>
@@ -358,6 +374,7 @@ const Navbar = () => {
               <div
                 className="toplinks"
                 onClick={() => setProfileShow(!profileShow)}
+                ref={menuRef}
               >
                 <div className="rio-ulogin">
                   <div className="us_img hid">
@@ -393,9 +410,15 @@ const Navbar = () => {
                     </div>
                     <ul className="dropcontent">
                       <li className="droplist">
-                        <a href="https://collegesuggest.com/profile.html">
-                          <MdPerson className="material-icons" /> Profile
-                        </a>
+                        <Link to="">
+                          <MdDashboard className="material-icons" /> Predictor
+                          Dashboard
+                        </Link>
+                      </li>
+                      <li className="droplist">
+                        <Link to="/profile">
+                          <MdPerson className="material-icons" /> My Account
+                        </Link>
                       </li>
                       <li className="droplist">
                         <a href="https://collegesuggest.com/bookmarks.html">
@@ -407,30 +430,6 @@ const Navbar = () => {
                         <a href="https://collegesuggest.com/notification.html">
                           <MdNotifications className="material-icons" />
                           Notification
-                        </a>
-                      </li>
-                      <li className="droplist">
-                        <a href="https://collegesuggest.com/recentlyviewed.html">
-                          <MdPreview className="material-icons" /> Recently
-                          Viewed Colleges
-                        </a>
-                      </li>
-                      <li className="droplist">
-                        <a href="https://collegesuggest.com/frequentlyviewed.html">
-                          <MdPreview className="material-icons" />
-                          Frequently Visited Colleges
-                        </a>
-                      </li>
-                      <li className="droplist">
-                        <a href="https://collegesuggest.com/reviewedColleges.html">
-                          <MdRateReview className="material-icons" />
-                          Reviewed Colleges
-                        </a>
-                      </li>
-                      <li className="droplist">
-                        <a href="https://collegesuggest.com/askQuestions.html">
-                          <MdOutlineHelp className="material-icons" />
-                          Asked Questions
                         </a>
                       </li>
                       <li className="droplist">

@@ -62,65 +62,211 @@ const MainSection = ({ getValueData }) => {
     responseSubmitData();
   };
 
+  // for (let i = 0; i < 1; i++) {
+  //   const courseList: any = [];
+  //   let courseDepartment: any = [];
+  //   let collegeData: any = _.filter(Datas, (e: any) => {
+  //     return e.cs_collegename === college[i].cs_collegename;
+  //   });
+  //   // console.log('filter',collegeData)
+  //   for (let department of collegeData) {
+  //     if (
+  //       !courseDepartment.includes(department.j_course) &&
+  //       !Array.isArray(department.j_course)
+  //     ) {
+  //       courseDepartment.push(department.j_course);
+  //       let course: any = _.chain(collegeData)
+  //         .filter((e: any) => {
+  //           return e.j_course === department.j_course;
+  //         })
+  //         .maxBy((e: any) => {
+  //           return Number(e.j_closing_rank);
+  //         })
+  //         .value();
+  //       courseList.push({
+  //         [`${course.j_closing_rank}`]: {
+  //           j_course_name: course.j_course,
+  //         },
+  //       });
+  //     }
+  //   }
+  //   college[i].j_course = _.sortBy(courseList, (obj) =>
+  //     parseInt(_.keys(obj)[0])
+  //   ).reverse();
+  // }
+
   //responseData
-  const fetchDataFilter = (data) => {
-    let college = _.uniqBy(data, (e) => {
-      return e.cs_collegename;
+  const fetchDataFilter = (allCollegeData) => {
+    const allCourseList = [];
+    let filterCourse = [];
+    allCollegeData.forEach((allBasedCollegeList) => {
+      let cscollegeName = allBasedCollegeList.cs_collegename;
+      filterCourse.push(allBasedCollegeList.j_course);
+      if (!allCourseList.hasOwnProperty(cscollegeName)) {
+        allCourseList[cscollegeName] = {
+          cs_sno: "",
+          collegeId: "",
+          j_course: [],
+          courseID: [],
+          quotaId: "",
+          seatId: "",
+          cs_collegelogo: "",
+          cs_college_url: "",
+          cs_college_page_url: "",
+          cs_col_state: "",
+          j_closing_rank: [],
+          cs_collegeuniversity: "",
+          cs_col_type: "",
+          collegeTypeName: "",
+          collegeTypeUrl: "",
+          jSeats: [],
+          jFees: [],
+        };
+      }
+
+      allCourseList[cscollegeName].j_course.push(allBasedCollegeList.j_course);
+      allCourseList[cscollegeName].courseID.push(allBasedCollegeList.courseID);
+      allCourseList[cscollegeName].j_closing_rank.push(
+        allBasedCollegeList.j_closing_rank
+      );
+      allCourseList[cscollegeName].jSeats.push(allBasedCollegeList.jSeats);
+      allCourseList[cscollegeName].jFees.push(allBasedCollegeList.jFees);
+      allCourseList[cscollegeName].cs_sno = allBasedCollegeList.cs_sno;
+      allCourseList[cscollegeName].collegeId = allBasedCollegeList.collegeId;
+      allCourseList[cscollegeName].quotaId = allBasedCollegeList.quotaId;
+      allCourseList[cscollegeName].seatId = allBasedCollegeList.seatId;
+      allCourseList[cscollegeName].cs_collegelogo =
+        allBasedCollegeList.cs_collegelogo;
+      allCourseList[cscollegeName].cs_college_url =
+        allBasedCollegeList.cs_college_url;
+      allCourseList[cscollegeName].cs_college_page_url =
+        allBasedCollegeList.cs_college_page_url;
+      allCourseList[cscollegeName].cs_col_state =
+        allBasedCollegeList.cs_col_state;
+      allCourseList[cscollegeName].stateName = allBasedCollegeList.stateName;
+      allCourseList[cscollegeName].cityName = allBasedCollegeList.cityName;
+      allCourseList[cscollegeName].cs_collegeuniversity =
+        allBasedCollegeList.cs_collegeuniversity;
+      allCourseList[cscollegeName].cs_col_type =
+        allBasedCollegeList.cs_col_type;
+      allCourseList[cscollegeName].collegeTypeName =
+        allBasedCollegeList.collegeTypeName;
+      allCourseList[cscollegeName].collegeTypeUrl =
+        allBasedCollegeList.collegeTypeUrl;
     });
-    for (let i = 0; i < college.length; i++) {
-      let courseList = [];
-      let collegeData = _.filter(data, (e) => {
-        return e.cs_collegename === college[i].cs_collegename;
-      });
-      for (let department of collegeData) {
-        if (
-          !_.some(courseList, { j_course_name: department.j_course }) &&
-          !Array.isArray(department.j_course)
-        ) {
-          courseList.push({
-            j_course_name: department.j_course,
-            jFees: department.jFees,
-            jSeats: department.jSeats,
-            j_closing_rank: department.j_closing_rank,
-          });
+
+    // function uniqArr(array) {
+    //   return array.filter((ele, index, arr) => index === arr.indexOf(ele));
+    // }
+    // filterCourse = uniqArr(filterCourse);
+
+    // console.log(allCourseList);
+
+    //   [84023:"ECE"
+    //   34234:"ECE"
+    //   00934:"ME"
+    // ]
+
+    for (let collegeDetails in allCourseList) {
+      const val = allCourseList[collegeDetails];
+      const collegeName = collegeDetails;
+      const jCourse = val.j_course;
+      const fees = val.jFees;
+      const seats = val.jSeats;
+      const closingRank = val.j_closing_rank;
+      const clgCourseID = val.courseID;
+      const quotaId = val.quotaId;
+      const csSno = val.cs_sno;
+
+      let mergedArray = [];
+      let courseFilter = [];
+      let highChanceCount = 0;
+
+      for (let i = 0; i < jCourse.length; i++) {
+        const courseObject = {};
+        courseObject[closingRank[i]] = {
+          jcourseName: jCourse[i],
+          jFees: fees[i],
+          jSeats: seats[i],
+        };
+        mergedArray.push(courseObject);
+      }
+
+      console.log("mergedArray", mergedArray);
+      // console.log("mergedArray", mergedArray);
+      // filtered duplicate values here
+      let existArr = [];
+      for (let course in mergedArray) {
+        let courseName = mergedArray[course].split("-")[0];
+        if (existArr[courseName]) {
+          mergedArray[course] = "";
+        } else {
+          existArr[courseName] = true;
         }
       }
-      // console.log(collegeData);
-      college[i].j_course = courseList;
-      courseList = [];
+
+      let courses = Object.values(mergedArray).filter(
+        (course) => course !== ""
+      );
+
+      courses.sort((a, b) => b.split("-")[0] - a.split("-")[0]);
+      let finalArray = Array.from(new Set(courses));
+      let finalArr = [];
+      finalArray.forEach((value, index) => {
+        let temp = value.split("-");
+        finalArr[index] = {
+          jcourseName: temp[0],
+          jSeats: temp[1],
+          jFees: temp[2],
+        };
+      });
+      console.log(finalArray);
     }
 
-    console.log(college);
-    // rankBasedChange(college);
-    setCollegeList(college);
-    setCityList(college);
+    //  const arr= [23040:"ECE"]
+
+    // let college = _.uniqBy(data, "cs_collegename");
+    // for (let i = 0; i < college.length; i++) {
+    //   let courseList = [];
+    //   let filterCourse = [];
+    //   let collegeData = _.filter(data, (e) => {
+    //     return e.cs_collegename === college[i].cs_collegename;
+    //   });
+    //   for (let department of collegeData) {
+    //     if (!filterCourse.includes(department.j_course)) {
+    //       filterCourse.push(department.j_course);
+    //       let course = _.chain(collegeData)
+    //         .filter((e) => {
+    //           return e.j_course === department.j_course;
+    //         })
+    //         .maxBy((e) => {
+    //           return parseInt(e.j_closing_rank);
+    //         })
+    //         .value();
+    //       courseList.push({
+    //         [`${course.j_closing_rank}`]: {
+    //           j_course_name: course.j_course,
+    //           jFees: course.jFees,
+    //           jSeats: course.jSeats,
+    //           courseID: course.courseID,
+    //           quotaId: course.quotaId,
+    //         },
+    //       });
+    //     }
+    //     // console.log("department", department);
+    //   }
+    //   // console.log(collegeData);
+    //   college[i].j_course = _.sortBy(courseList, (obj) =>
+    //     parseInt(_.keys(obj)[0])
+    //   ).reverse();
+    //   //   const sortedData = _.sortBy(data, (obj) => {
+    //   //     return parseInt(Object.keys(obj)[0]);
+    //   // });
+    // }
+    // console.log("data", college);
+    // setCollegeList(college);
+    // setCityList(college);
   };
-
-  // const rankBasedChange = (college) => {
-  //   const rank_Id = filterByCollege.rankId;
-
-  //   let sumOfResult = (rank_Id * 10) / 100;
-
-  //   const minRank = sumOfResult - 10;
-  //   const maxRank = sumOfResult + 10;
-
-  //   // console.log(minRank, maxRank);
-  //   // college.forEach((ele) => {
-  //   //   ele.j_course.forEach((course) => {
-  //   //     // console.log("first", course.j_closing_rank);
-  //       let rankno = course.j_closing_rank;
-  //       console.log(rankno);
-
-  //       if (minRank >= rankno) {
-  //         return;
-  //       } else if (maxRank <= rankno) {
-  //         return;
-  //       } else {
-  //         return;
-  //       }
-  //   //   });
-  //   // });
-  // };
 
   //form submitValues
   const responseSubmitData = async () => {
@@ -129,6 +275,7 @@ const MainSection = ({ getValueData }) => {
       const { data } = await predictorList.formSubmitData(getValueData);
       const { predictorResList } = data;
       fetchDataFilter(predictorResList);
+
       setLoading(false);
       // console.log("new Data", college);
     } catch (error) {
@@ -169,10 +316,11 @@ const MainSection = ({ getValueData }) => {
     }
   };
 
-  //CourseList
-  const predictorCourseList = async () => {
+  //courseList
+  const predictorcourseList = async () => {
     try {
       const { data } = await predictorList.courseList();
+
       let resultData = data.predictorCourseList.sort((a, b) => {
         if (a.stateName < b.stateName) {
           return -1;
@@ -182,6 +330,7 @@ const MainSection = ({ getValueData }) => {
         }
         return 0;
       });
+
       setCourseList(resultData);
     } catch (err) {
       console.log(err);
@@ -201,7 +350,7 @@ const MainSection = ({ getValueData }) => {
 
   useEffect(() => {
     predictorStateList();
-    predictorCourseList();
+    predictorcourseList();
   }, []);
 
   useEffect(() => {
