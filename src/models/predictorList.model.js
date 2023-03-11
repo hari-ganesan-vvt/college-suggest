@@ -5,10 +5,10 @@ const predictorList = {
     let promise = new Promise((resolve, reject) => {
       let url;
       if (values.rankType === "General Rank") {
-        url = "/predictor/predictorResList";
+        url = "/predictor/predictorCategoryCollegeList";
       }
       if (values.rankType === "Category Rank") {
-        url = "predictor/predictorCategoryCollegeList";
+        url = "/predictor/predictorResList";
       }
       instance()
         .post(url, values)

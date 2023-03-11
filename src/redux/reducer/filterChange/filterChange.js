@@ -3,12 +3,12 @@ export const filterChangeReducer = (
   action
 ) => {
   switch (action.type) {
-    case "LOW_CHANGE":
+    case "FILTER_CHANGE_DATA":
       return { predictorChangeData: action.payload };
-    case "MEDIUM_CHANGE":
-      return { predictorChangeData: action.payload };
-    case "HIGH_CHANGE":
-      return { predictorChangeData: action.payload };
+    // case "MEDIUM_CHANGE":
+    //   return { predictorChangeData: action.payload };
+    // case "HIGH_CHANGE":
+    //   return { predictorChangeData: action.payload };
 
     default:
       return state;

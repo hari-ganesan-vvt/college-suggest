@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import MainSection from "../../components/overallRankLayout/MainSection";
@@ -6,8 +6,7 @@ import Assets from "../../imports/assets.imports";
 
 const OverallRank = () => {
   const dispatch = useDispatch();
-  const filterAll = useSelector((state) => state.filterChange);
-
+  const [activeEmoji, setActiveEmoji] = useState(false);
   // console.log(filterAll);
   //getValues session Storage
   const getValueData = sessionStorage.getItem("_values")
@@ -72,7 +71,7 @@ const OverallRank = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="typbx ">
+                <a href="#" className="typbx">
                   <div className="minicons">
                     <img src={Assets.favicg} alt="" />
                   </div>
@@ -81,9 +80,12 @@ const OverallRank = () => {
               </li>
 
               <li
-                onClick={() =>
-                  dispatch({ type: "HIGH_CHANGE", payload: "HIGH_UPDATED" })
-                }
+                onClick={() => {
+                  dispatch({
+                    type: "FILTER_CHANGE_DATA",
+                    payload: "HIGH_UPDATED",
+                  });
+                }}
               >
                 <a href="#" className="typbx">
                   <img src={Assets.highEmoji} alt="HighEmoji" />
@@ -93,7 +95,10 @@ const OverallRank = () => {
 
               <li
                 onClick={() =>
-                  dispatch({ type: "MEDIUM_CHANGE", payload: "MEDIUM_UPDATED" })
+                  dispatch({
+                    type: "FILTER_CHANGE_DATA",
+                    payload: "MEDIUM_UPDATED",
+                  })
                 }
               >
                 <a href="#" className="typbx">
@@ -104,7 +109,10 @@ const OverallRank = () => {
 
               <li
                 onClick={() =>
-                  dispatch({ type: "LOW_CHANGE", payload: "LOW_UPDATED" })
+                  dispatch({
+                    type: "FILTER_CHANGE_DATA",
+                    payload: "LOW_UPDATED",
+                  })
                 }
               >
                 <a href="#" className="typbx">
