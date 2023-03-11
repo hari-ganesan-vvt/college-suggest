@@ -220,36 +220,26 @@ const MainSection = ({ getValueData }) => {
           <div className="row">
             <>
               <div className="col-xl-8 col-lg-6 col-sm-12 custom-col-lay">
-                {loading ? (
-                  <Loading />
-                ) : (
-                  <div className="mainblock">
-                    {collegeList.length !== 0 ? (
-                      <div>
-                        {collegeList &&
-                          collegeList
-                            // .slice(0, itemPerpage)
-                            .map((listdata, i) => {
-                              return (
-                                <MainCard
-                                  listdata={listdata}
-                                  key={i}
-                                  stateInfo={findFormState}
-                                />
-                              );
-                            })}
-                      </div>
-                    ) : (
-                      <div>No data found</div>
-                    )}
-
-                    {/* {collegeList && collegeList.length !== 0 && (
-                      <button className="loadmore" onClick={showMoreItem}>
-                        Loadmore
-                      </button>
-                    )} */}
-                  </div>
-                )}
+                <div className="mainblock">
+                  {collegeList.length !== 0 ? (
+                    <div>
+                      {collegeList &&
+                        collegeList
+                          // .slice(0, itemPerpage)
+                          .map((listdata, i) => {
+                            return (
+                              <MainCard
+                                listdata={listdata}
+                                key={i}
+                                stateInfo={findFormState}
+                              />
+                            );
+                          })}
+                    </div>
+                  ) : (
+                    <div>No data found</div>
+                  )}
+                </div>
               </div>
 
               <div className="col-xl-4 col-lg-6 mobilehide">
@@ -386,11 +376,7 @@ const MainSection = ({ getValueData }) => {
                           </div>
                         )}
                         {filterByCollege.sortBy && (
-                          <div
-                            className="catticked"
-                            id="FTSortnirfRank"
-                            // onclick="closeFilter('FTSort','nirfRank')"
-                          >
+                          <div className="catticked" id="FTSortnirfRank">
                             <span
                               className="material-icons cnlbutton"
                               onClick={() =>
@@ -409,11 +395,7 @@ const MainSection = ({ getValueData }) => {
                         )}
 
                         {selectedCourseValue?.courseName && (
-                          <div
-                            className="catticked"
-                            id="FTorderasc"
-                            // onclick="closeFilter('FTorder','asc')"
-                          >
+                          <div className="catticked" id="FTorderasc">
                             <span
                               className="material-icons cnlbutton"
                               onClick={() =>
@@ -432,11 +414,7 @@ const MainSection = ({ getValueData }) => {
                         )}
 
                         {selectedStateValue?.stateName && (
-                          <div
-                            className="catticked"
-                            id="FTorderasc"
-                            // onclick="closeFilter('FTorder','asc')"
-                          >
+                          <div className="catticked" id="FTorderasc">
                             <span
                               className="material-icons cnlbutton"
                               onClick={() =>
@@ -456,11 +434,7 @@ const MainSection = ({ getValueData }) => {
                         )}
 
                         {filterByCollege.cityId.length > 0 && (
-                          <div
-                            className="catticked"
-                            id="FTorderasc"
-                            // onclick="closeFilter('FTorder','asc')"
-                          >
+                          <div className="catticked" id="FTorderasc">
                             <span
                               className="material-icons cnlbutton"
                               onClick={() =>

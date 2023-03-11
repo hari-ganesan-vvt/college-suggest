@@ -10,9 +10,9 @@ const MainCard = ({ listdata, stateInfo }) => {
         <div className="m-logo_bx">
           <img
             src={
-              listdata.cs_collegelogo == ""
-                ? Assets.noLogoImg
-                : `https://collegesuggest.com/assets/images/${listdata.cs_collegelogo}`
+              listdata.cs_collegelogo !== ""
+                ? `https://collegesuggest.com/assets/images/${listdata.cs_collegelogo}`
+                : Assets.noLogoImg
             }
             alt="collegeLogo"
           />
@@ -84,98 +84,14 @@ const MainCard = ({ listdata, stateInfo }) => {
                           </div>
                           <div className="d-block">
                             <h3 className="titlelinks mini">
-                              {course?.j_course_name}
+                              {Object.values(course)[0].j_course_name}
                             </h3>
-                            {/* <p className="locationpara mini">
-                              {course.}
-                            </p> */}
                           </div>
                         </div>
                       </a>
                     </li>
                   );
                 })}
-
-              {/* <li>
-                <a href="#">
-                  <div className="minimg">
-                    <img
-                      src="https://cs.collegesuggest.com/assets/images/indian-institute-of-1661752401.webp"
-                      alt=""
-                    />
-                  </div>
-                  <div className="d-block">
-                    <h3 className="titlelinks mini">
-                      IIT Delhi - Indian Institute of Technology - [IITD]
-                    </h3>
-                    <p className="locationpara mini">Hauz Khas, Delhi</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div className="minimg">
-                    <img
-                      src="https://cs.collegesuggest.com/assets/images/indian-institute-of-1661752401.webp"
-                      alt=""
-                    />
-                  </div>
-                  <div className="d-block">
-                    <h3 className="titlelinks mini">
-                      IIT Delhi - Indian Institute of Technology - [IITD]
-                    </h3>
-                    <p className="locationpara mini">Hauz Khas, Delhi</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div className="minimg">
-                    <img
-                      src="https://cs.collegesuggest.com/assets/images/indian-institute-of-1661752401.webp"
-                      alt=""
-                    />
-                  </div>
-                  <div className="d-block">
-                    <h3 className="titlelinks mini">
-                      IIT Delhi - Indian Institute of Technology - [IITD]
-                    </h3>
-                    <p className="locationpara mini">Hauz Khas, Delhi</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div className="minimg">
-                    <img
-                      src="https://cs.collegesuggest.com/assets/images/indian-institute-of-1661752401.webp"
-                      alt=""
-                    />
-                  </div>
-                  <div className="d-block">
-                    <h3 className="titlelinks mini">
-                      IIT Delhi - Indian Institute of Technology - [IITD]
-                    </h3>
-                    <p className="locationpara mini">Hauz Khas, Delhi</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div className="minimg">
-                    <img
-                      src="https://cs.collegesuggest.com/assets/images/indian-institute-of-1661752401.webp"
-                      alt=""
-                    />
-                  </div>
-                  <div className="d-block">
-                    <h3 className="titlelinks mini">
-                      IIT Delhi - Indian Institute of Technology - [IITD]
-                    </h3>
-                    <p className="locationpara mini">Hauz Khas, Delhi</p>
-                  </div>
-                </a>
-              </li> */}
             </ul>
           </div>
         </div>
